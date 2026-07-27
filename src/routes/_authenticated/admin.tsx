@@ -332,8 +332,12 @@ function AdminPage() {
         <SiteHeader />
         <main className="flex-1 flex flex-col items-center justify-center py-20 text-center">
           <ShieldAlert className="h-10 w-10 text-red-500 mb-2" />
-          <h2 className="text-xl font-bold text-emerald-950">Unauthorized Access</h2>
-          <p className="text-sm text-emerald-900/60 mt-1">This page requires owner privileges.</p>
+          <h2 className="text-xl font-bold text-emerald-950 dark:text-white">
+            Unauthorized Access
+          </h2>
+          <p className="text-sm text-emerald-900/60 dark:text-emerald-200/70 mt-1">
+            This page requires owner privileges.
+          </p>
         </main>
         <SiteFooter />
       </div>
@@ -347,10 +351,10 @@ function AdminPage() {
         {/* Title */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-emerald-950 flex items-center gap-2">
+            <h1 className="text-3xl font-bold tracking-tight text-emerald-950 dark:text-white flex items-center gap-2">
               Taj Admin Dashboard
             </h1>
-            <p className="mt-1 text-emerald-900/70">
+            <p className="mt-1 text-emerald-900/70 dark:text-emerald-200/80">
               Manage incoming prescription requests, set sterile packaging pricing, and keep track
               of pickups.
             </p>
@@ -375,10 +379,12 @@ function AdminPage() {
               <TrendingUp className="h-6 w-6" />
             </div>
             <div>
-              <p className="text-xs font-bold text-emerald-950/40 uppercase tracking-wider">
+              <p className="text-xs font-bold text-emerald-950/40 dark:text-emerald-100/40 uppercase tracking-wider">
                 Total Sales
               </p>
-              <p className="text-xl font-extrabold text-emerald-950">₹{sales.toFixed(2)}</p>
+              <p className="text-xl font-extrabold text-emerald-950 dark:text-white">
+                ₹{sales.toFixed(2)}
+              </p>
             </div>
           </div>
 
@@ -387,10 +393,12 @@ function AdminPage() {
               <ClipboardList className="h-6 w-6" />
             </div>
             <div>
-              <p className="text-xs font-bold text-emerald-950/40 uppercase tracking-wider">
+              <p className="text-xs font-bold text-emerald-950/40 dark:text-emerald-100/40 uppercase tracking-wider">
                 Pending Review
               </p>
-              <p className="text-xl font-extrabold text-emerald-950">{pendingCount} orders</p>
+              <p className="text-xl font-extrabold text-emerald-950 dark:text-white">
+                {pendingCount} orders
+              </p>
             </div>
           </div>
 
@@ -399,10 +407,12 @@ function AdminPage() {
               <PackageCheck className="h-6 w-6" />
             </div>
             <div>
-              <p className="text-xs font-bold text-emerald-950/40 uppercase tracking-wider">
+              <p className="text-xs font-bold text-emerald-950/40 dark:text-emerald-100/40 uppercase tracking-wider">
                 Awaiting Pickup
               </p>
-              <p className="text-xl font-extrabold text-emerald-950">{readyPickupCount} orders</p>
+              <p className="text-xl font-extrabold text-emerald-950 dark:text-white">
+                {readyPickupCount} orders
+              </p>
             </div>
           </div>
 
@@ -411,10 +421,12 @@ function AdminPage() {
               <CheckCircle2 className="h-6 w-6" />
             </div>
             <div>
-              <p className="text-xs font-bold text-emerald-950/40 uppercase tracking-wider">
+              <p className="text-xs font-bold text-emerald-950/40 dark:text-emerald-100/40 uppercase tracking-wider">
                 Completed Pickups
               </p>
-              <p className="text-xl font-extrabold text-emerald-950">{completedCount} orders</p>
+              <p className="text-xl font-extrabold text-emerald-950 dark:text-white">
+                {completedCount} orders
+              </p>
             </div>
           </div>
         </div>
@@ -439,11 +451,11 @@ function AdminPage() {
           {/* Tab 1: Order Queue */}
           <TabsContent value="queue" className="space-y-6 outline-none">
             {loadingOrders ? (
-              <div className="py-12 text-center text-emerald-900/60 font-semibold flex flex-col items-center gap-2">
+              <div className="py-12 text-center text-emerald-900/60 dark:text-emerald-200/70 font-semibold flex flex-col items-center gap-2">
                 <Sparkles className="h-6 w-6 animate-spin text-emerald-600" /> Loading Queue...
               </div>
             ) : orders.length === 0 ? (
-              <div className="py-12 text-center text-emerald-900/50 bg-white border border-emerald-100 rounded-3xl">
+              <div className="py-12 text-center text-emerald-900/50 dark:text-emerald-200/60 bg-white border border-emerald-100 rounded-3xl">
                 No orders have been received yet.
               </div>
             ) : (
@@ -463,7 +475,7 @@ function AdminPage() {
                     >
                       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-emerald-50 pb-3 mb-3">
                         <div className="flex items-center gap-2">
-                          <span className="text-xs font-bold text-emerald-950/40 uppercase font-mono">
+                          <span className="text-xs font-bold text-emerald-950/40 dark:text-emerald-100/40 uppercase font-mono">
                             #{order.id.replace("mock_", "").slice(0, 8)}
                           </span>
                           <span
@@ -482,26 +494,28 @@ function AdminPage() {
                             {order.status.replace("_", " ")}
                           </span>
                         </div>
-                        <span className="text-xs text-emerald-950/50">
+                        <span className="text-xs text-emerald-950/50 dark:text-emerald-100/50">
                           {new Date(order.created_at).toLocaleDateString()}
                         </span>
                       </div>
 
                       <div className="grid md:grid-cols-2 gap-4 items-start mb-4">
                         <div>
-                          <p className="text-[10px] font-bold text-emerald-950/30 uppercase tracking-wider">
+                          <p className="text-[10px] font-bold text-emerald-950/30 dark:text-emerald-100/30 uppercase tracking-wider">
                             Customer details
                           </p>
-                          <p className="text-sm font-bold text-emerald-950">{order.user_email}</p>
-                          <p className="text-xs text-emerald-950/70">
+                          <p className="text-sm font-bold text-emerald-950 dark:text-white">
+                            {order.user_email}
+                          </p>
+                          <p className="text-xs text-emerald-950/70 dark:text-emerald-100/70">
                             {order.user_phone || "No phone"}
                           </p>
-                          <p className="text-[11px] text-emerald-950/60 mt-1 truncate">
+                          <p className="text-[11px] text-emerald-950/60 dark:text-emerald-100/60 mt-1 truncate">
                             {order.user_address || "No address"}
                           </p>
                         </div>
                         <div>
-                          <p className="text-[10px] font-bold text-emerald-950/30 uppercase tracking-wider">
+                          <p className="text-[10px] font-bold text-emerald-950/30 dark:text-emerald-100/30 uppercase tracking-wider">
                             Items summary
                           </p>
                           <div className="max-h-[80px] overflow-y-auto mt-1">
@@ -509,10 +523,12 @@ function AdminPage() {
                               order.items.map((item, idx) => (
                                 <p
                                   key={idx}
-                                  className="text-xs text-emerald-950 leading-relaxed font-semibold"
+                                  className="text-xs text-emerald-950 dark:text-white leading-relaxed font-semibold"
                                 >
                                   • {item.name}{" "}
-                                  <span className="text-emerald-900/50">x{item.quantity}</span>
+                                  <span className="text-emerald-900/50 dark:text-emerald-200/60">
+                                    x{item.quantity}
+                                  </span>
                                 </p>
                               ))}
                           </div>
@@ -535,7 +551,7 @@ function AdminPage() {
 
                       <div className="flex justify-between items-center border-t border-emerald-50 pt-3">
                         <div className="flex flex-col">
-                          <span className="text-sm font-black text-emerald-950">
+                          <span className="text-sm font-black text-emerald-950 dark:text-white">
                             Invoice:{" "}
                             {order.total_price > 0 ? `₹${order.total_price.toFixed(2)}` : "Pending"}
                           </span>
@@ -596,7 +612,7 @@ function AdminPage() {
                 {activeProcessingOrder && (
                   <div className="xl:col-span-5 rounded-3xl border-2 border-emerald-600 bg-white p-6 shadow-xl space-y-6">
                     <div className="flex justify-between items-center border-b border-emerald-50 pb-3">
-                      <h2 className="text-lg font-bold text-emerald-950 flex items-center gap-2">
+                      <h2 className="text-lg font-bold text-emerald-950 dark:text-white flex items-center gap-2">
                         Package & Invoice Order
                       </h2>
                       <Button
@@ -608,7 +624,7 @@ function AdminPage() {
                       </Button>
                     </div>
 
-                    <div className="text-xs text-emerald-900/60 bg-emerald-50/30 border border-emerald-100/50 rounded-2xl p-4 space-y-2">
+                    <div className="text-xs text-emerald-900/60 dark:text-emerald-200/70 bg-emerald-50/30 border border-emerald-100/50 rounded-2xl p-4 space-y-2">
                       <p>
                         <strong>Customer:</strong> {activeProcessingOrder.user_email}
                       </p>
@@ -623,7 +639,7 @@ function AdminPage() {
                     </div>
                     {/* Add new items dynamically if prescription is uploaded */}
                     <div className="border border-emerald-100 rounded-2xl p-4 bg-emerald-50/20 space-y-3">
-                      <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-950/60">
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-950/60 dark:text-emerald-100/60">
                         Add Packaged Item
                       </h4>
                       <div className="flex gap-2">
@@ -670,7 +686,7 @@ function AdminPage() {
 
                     {/* Items Price Assignments */}
                     <div className="space-y-4">
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-950/40">
+                      <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-950/40 dark:text-emerald-100/40">
                         Assign Packaging Prices
                       </h3>
                       <div className="space-y-3">
@@ -680,7 +696,7 @@ function AdminPage() {
                             className="flex gap-3 justify-between items-center py-2.5 border-b border-emerald-50"
                           >
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-bold text-emerald-950 truncate flex items-center gap-1.5">
+                              <p className="text-sm font-bold text-emerald-950 dark:text-white truncate flex items-center gap-1.5">
                                 {item.name}
                                 {item.isCustom && (
                                   <span className="bg-amber-100 border border-amber-200 px-1 py-0.5 rounded text-[8px] font-bold text-amber-700">
@@ -708,7 +724,7 @@ function AdminPage() {
                               </div>
                               {/* Price field */}
                               <div className="relative w-20">
-                                <span className="absolute left-2 top-2.5 text-xs text-emerald-950/40">
+                                <span className="absolute left-2 top-2.5 text-xs text-emerald-950/40 dark:text-emerald-100/40">
                                   ₹
                                 </span>
                                 <Input
@@ -733,7 +749,7 @@ function AdminPage() {
                                 onClick={() => {
                                   setProcessingItems(processingItems.filter((_, i) => i !== idx));
                                 }}
-                                className="h-8 w-8 text-emerald-900/50 hover:text-red-500 rounded-lg"
+                                className="h-8 w-8 text-emerald-900/50 dark:text-emerald-200/60 hover:text-red-500 rounded-lg"
                               >
                                 <Trash2 className="h-4 w-4" />
                               </Button>
@@ -745,7 +761,10 @@ function AdminPage() {
 
                     {/* Directions Notes */}
                     <div className="space-y-1.5">
-                      <Label htmlFor="adminNotes" className="text-xs font-bold text-emerald-950">
+                      <Label
+                        htmlFor="adminNotes"
+                        className="text-xs font-bold text-emerald-950 dark:text-white"
+                      >
                         Directions for Customer (Admin Notes)
                       </Label>
                       <Textarea
@@ -760,7 +779,7 @@ function AdminPage() {
                     {/* Actions */}
                     <div className="pt-4 border-t border-emerald-50">
                       <div className="flex justify-between items-center mb-4">
-                        <span className="text-sm font-bold text-emerald-950">
+                        <span className="text-sm font-bold text-emerald-950 dark:text-white">
                           Subtotal calculation
                         </span>
                         <span className="text-lg font-black text-emerald-700">
@@ -790,14 +809,18 @@ function AdminPage() {
             <div className="grid lg:grid-cols-12 gap-8 items-start">
               {/* Left Column: Medicines Catalog List (7 cols) */}
               <div className="lg:col-span-7 rounded-3xl border border-emerald-100 bg-white p-6 shadow-xl shadow-emerald-950/5">
-                <h2 className="text-lg font-bold text-emerald-950 mb-4">Active Stock Catalog</h2>
+                <h2 className="text-lg font-bold text-emerald-950 dark:text-white mb-4">
+                  Active Stock Catalog
+                </h2>
 
                 {loadingInventory ? (
-                  <div className="py-12 text-center text-emerald-900/60 font-semibold">
+                  <div className="py-12 text-center text-emerald-900/60 dark:text-emerald-200/70 font-semibold">
                     Loading catalog...
                   </div>
                 ) : medicines.length === 0 ? (
-                  <div className="py-12 text-center text-emerald-900/50">Catalog is empty.</div>
+                  <div className="py-12 text-center text-emerald-900/50 dark:text-emerald-200/60">
+                    Catalog is empty.
+                  </div>
                 ) : (
                   <div className="space-y-3.5 max-h-[500px] overflow-y-auto pr-1">
                     {medicines.map((med) => (
@@ -810,25 +833,27 @@ function AdminPage() {
                             <Pill className="h-5 w-5" />
                           </div>
                           <div>
-                            <p className="text-sm font-bold text-emerald-950">{med.name}</p>
-                            <p className="text-xs text-emerald-950/50 mt-0.5">
+                            <p className="text-sm font-bold text-emerald-950 dark:text-white">
+                              {med.name}
+                            </p>
+                            <p className="text-xs text-emerald-950/50 dark:text-emerald-100/50 mt-0.5">
                               {med.category} • stock: {med.stock}
                             </p>
                             {med.description && (
-                              <p className="text-[10px] text-emerald-950/40 mt-1 italic">
+                              <p className="text-[10px] text-emerald-950/40 dark:text-emerald-100/40 mt-1 italic">
                                 {med.description}
                               </p>
                             )}
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
-                          <span className="text-sm font-extrabold text-emerald-950">
+                          <span className="text-sm font-extrabold text-emerald-950 dark:text-white">
                             ₹{med.price.toFixed(2)}
                           </span>
                           <Button
                             size="icon"
                             variant="ghost"
-                            className="h-8 w-8 text-emerald-900/40 hover:text-red-500 rounded-lg"
+                            className="h-8 w-8 text-emerald-900/40 dark:text-emerald-200/50 hover:text-red-500 rounded-lg"
                             onClick={() => handleDeleteMedicine(med.id)}
                           >
                             <Trash2 className="h-4.5 w-4.5" />
@@ -842,13 +867,16 @@ function AdminPage() {
 
               {/* Right Column: Add Medicine form (5 cols) */}
               <div className="lg:col-span-5 rounded-3xl border border-emerald-100 bg-white p-6 shadow-xl shadow-emerald-950/5">
-                <h2 className="text-lg font-bold text-emerald-950 border-b border-emerald-50 pb-3 mb-4">
+                <h2 className="text-lg font-bold text-emerald-950 dark:text-white border-b border-emerald-50 pb-3 mb-4">
                   Add Medicine
                 </h2>
 
                 <form onSubmit={handleAddMedicine} className="space-y-4">
                   <div className="space-y-1.5">
-                    <Label htmlFor="medName" className="text-xs font-bold text-emerald-950">
+                    <Label
+                      htmlFor="medName"
+                      className="text-xs font-bold text-emerald-950 dark:text-white"
+                    >
                       Medicine Name
                     </Label>
                     <Input
@@ -862,7 +890,10 @@ function AdminPage() {
                   </div>
 
                   <div className="space-y-1.5">
-                    <Label htmlFor="medDesc" className="text-xs font-bold text-emerald-950">
+                    <Label
+                      htmlFor="medDesc"
+                      className="text-xs font-bold text-emerald-950 dark:text-white"
+                    >
                       Description
                     </Label>
                     <Textarea
@@ -876,11 +907,14 @@ function AdminPage() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <Label htmlFor="medPrice" className="text-xs font-bold text-emerald-950">
+                      <Label
+                        htmlFor="medPrice"
+                        className="text-xs font-bold text-emerald-950 dark:text-white"
+                      >
                         Price (₹)
                       </Label>
                       <div className="relative">
-                        <span className="absolute left-2.5 top-2.5 text-xs text-emerald-950/40">
+                        <span className="absolute left-2.5 top-2.5 text-xs text-emerald-950/40 dark:text-emerald-100/40">
                           ₹
                         </span>
                         <Input
@@ -898,7 +932,10 @@ function AdminPage() {
                     </div>
 
                     <div className="space-y-1.5">
-                      <Label htmlFor="medStock" className="text-xs font-bold text-emerald-950">
+                      <Label
+                        htmlFor="medStock"
+                        className="text-xs font-bold text-emerald-950 dark:text-white"
+                      >
                         Initial Stock
                       </Label>
                       <Input
@@ -914,7 +951,10 @@ function AdminPage() {
                   </div>
 
                   <div className="space-y-1.5">
-                    <Label htmlFor="medCat" className="text-xs font-bold text-emerald-950">
+                    <Label
+                      htmlFor="medCat"
+                      className="text-xs font-bold text-emerald-950 dark:text-white"
+                    >
                       Category
                     </Label>
                     <select

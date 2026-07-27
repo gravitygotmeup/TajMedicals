@@ -152,10 +152,10 @@ function MyOrdersPage() {
       <main className="flex-1 mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 py-10">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-emerald-950">
+            <h1 className="text-3xl font-bold tracking-tight text-emerald-950 dark:text-white">
               My Medical Requests
             </h1>
-            <p className="mt-1.5 text-emerald-900/70">
+            <p className="mt-1.5 text-emerald-900/70 dark:text-emerald-200/80">
               Track, pay, and get pickup receipts for your medicines.
             </p>
           </div>
@@ -170,15 +170,17 @@ function MyOrdersPage() {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20">
             <Sparkles className="h-8 w-8 animate-spin text-emerald-600" />
-            <p className="mt-3 text-sm text-emerald-900/60 font-medium">
+            <p className="mt-3 text-sm text-emerald-900/60 dark:text-emerald-200/70 font-medium">
               Fetching orders status...
             </p>
           </div>
         ) : orders.length === 0 ? (
-          <div className="text-center py-20 rounded-3xl border border-emerald-100 bg-white shadow-xl shadow-emerald-950/5">
-            <ShoppingCart className="h-14 w-14 mx-auto text-emerald-900/20 mb-4" />
-            <h3 className="text-lg font-bold text-emerald-950">No requests found</h3>
-            <p className="text-sm text-emerald-900/60 mt-1 max-w-sm mx-auto">
+          <div className="text-center py-20 rounded-3xl border border-emerald-100 dark:border-emerald-800/60 bg-white shadow-xl shadow-emerald-950/5">
+            <ShoppingCart className="h-14 w-14 mx-auto text-emerald-900/20 dark:text-emerald-200/30 mb-4" />
+            <h3 className="text-lg font-bold text-emerald-950 dark:text-white">
+              No requests found
+            </h3>
+            <p className="text-sm text-emerald-900/60 dark:text-emerald-200/70 mt-1 max-w-sm mx-auto">
               You haven't requested any medicines yet. Place your first request to get started.
             </p>
             <Button
@@ -198,18 +200,18 @@ function MyOrdersPage() {
                 {/* Left side: details */}
                 <div className="flex-1 space-y-4">
                   <div className="flex flex-wrap items-center gap-3">
-                    <span className="text-xs font-bold text-emerald-950/40 uppercase tracking-wider font-mono">
+                    <span className="text-xs font-bold text-emerald-950/40 dark:text-emerald-100/40 uppercase tracking-wider font-mono">
                       Request #{order.id.replace("mock_", "").slice(0, 8)}
                     </span>
                     {getStatusBadge(order.status)}
-                    <span className="text-xs text-emerald-950/50">
+                    <span className="text-xs text-emerald-950/50 dark:text-emerald-100/50">
                       {formatDate(order.created_at)}
                     </span>
                   </div>
 
                   {/* Medicines list */}
                   <div>
-                    <h4 className="text-xs font-bold text-emerald-950 uppercase tracking-wider mb-2">
+                    <h4 className="text-xs font-bold text-emerald-950 dark:text-white uppercase tracking-wider mb-2">
                       Requested Items:
                     </h4>
                     <div className="flex flex-wrap gap-2">
@@ -221,18 +223,18 @@ function MyOrdersPage() {
                           >
                             <Pill className="h-3.5 w-3.5 text-emerald-600" />
                             {item.name}{" "}
-                            <span className="text-emerald-900/40 font-bold ml-1">
+                            <span className="text-emerald-900/40 dark:text-emerald-200/50 font-bold ml-1">
                               x{item.quantity}
                             </span>
                             {item.price && (
-                              <span className="text-[10px] text-emerald-900/50 ml-1">
+                              <span className="text-[10px] text-emerald-900/50 dark:text-emerald-200/60 ml-1">
                                 (₹{item.price.toFixed(2)})
                               </span>
                             )}
                           </span>
                         ))
                       ) : (
-                        <span className="text-xs text-emerald-950/50 flex items-center gap-1">
+                        <span className="text-xs text-emerald-950/50 dark:text-emerald-100/50 flex items-center gap-1">
                           <Package className="h-4 w-4" /> Prescription Upload only
                         </span>
                       )}
@@ -241,7 +243,7 @@ function MyOrdersPage() {
 
                   {/* Customer Notes */}
                   {order.notes && (
-                    <div className="text-xs text-emerald-900/70 border-l-2 border-emerald-100 pl-3.5">
+                    <div className="text-xs text-emerald-900/70 dark:text-emerald-200/80 border-l-2 border-emerald-100 dark:border-emerald-800/60 pl-3.5">
                       <strong>My Notes:</strong> {order.notes}
                     </div>
                   )}
@@ -258,10 +260,10 @@ function MyOrdersPage() {
                 <div className="flex flex-col justify-between items-start md:items-end gap-4 min-w-[200px] border-t md:border-t-0 md:border-l border-emerald-50 pt-4 md:pt-0 md:pl-6">
                   {/* Pricing block */}
                   <div className="space-y-1">
-                    <p className="text-xs font-bold text-emerald-950/40 md:text-right uppercase tracking-wider">
+                    <p className="text-xs font-bold text-emerald-950/40 dark:text-emerald-100/40 md:text-right uppercase tracking-wider">
                       Estimated Total
                     </p>
-                    <p className="text-2xl font-black text-emerald-950 md:text-right">
+                    <p className="text-2xl font-black text-emerald-950 dark:text-white md:text-right">
                       {order.total_price > 0 ? `₹${order.total_price.toFixed(2)}` : "TBD"}
                     </p>
                     <p
@@ -289,12 +291,12 @@ function MyOrdersPage() {
                             <CheckCircle className="h-4 w-4" /> Payment Verified
                           </span>
                         )}
-                        <div className="rounded-2xl border border-emerald-100 bg-emerald-50/40 p-3.5 space-y-2 text-emerald-950 w-full">
+                        <div className="rounded-2xl border border-emerald-100 dark:border-emerald-800/60 bg-emerald-50/40 p-3.5 space-y-2 text-emerald-950 dark:text-white w-full">
                           <p className="text-[11px] font-bold flex items-center gap-1.5">
                             <MapPin className="h-4 w-4 text-emerald-600 shrink-0" /> Ready at main
                             counter!
                           </p>
-                          <p className="text-[10px] text-emerald-950/70 leading-relaxed">
+                          <p className="text-[10px] text-emerald-950/70 dark:text-emerald-100/70 leading-relaxed">
                             Pickup code:{" "}
                             <strong className="text-emerald-800">
                               {order.id.replace("mock_", "").slice(0, 5).toUpperCase()}
@@ -306,7 +308,7 @@ function MyOrdersPage() {
                     )}
 
                     {order.status === "pending_review" && (
-                      <p className="text-xs text-emerald-900/50 md:text-right italic">
+                      <p className="text-xs text-emerald-900/50 dark:text-emerald-200/60 md:text-right italic">
                         Our pharmacist is matching your request to active stock. We will notify you
                         by email once packaging is complete.
                       </p>
@@ -320,7 +322,7 @@ function MyOrdersPage() {
                     )}
 
                     {order.status === "completed" && (
-                      <p className="text-xs text-emerald-900/40 md:text-right flex items-center gap-1 justify-end">
+                      <p className="text-xs text-emerald-900/40 dark:text-emerald-200/50 md:text-right flex items-center gap-1 justify-end">
                         <CheckCircle className="h-3.5 w-3.5 text-emerald-600" /> Received at counter
                       </p>
                     )}

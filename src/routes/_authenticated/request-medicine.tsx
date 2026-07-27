@@ -206,10 +206,10 @@ function RequestMedicinePage() {
         </div>
 
         <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight text-emerald-950 flex items-center gap-2">
+          <h1 className="text-3xl font-bold tracking-tight text-emerald-950 dark:text-white flex items-center gap-2">
             <ShoppingBag className="text-emerald-600" /> Order Medicines
           </h1>
-          <p className="mt-1.5 text-emerald-900/70">
+          <p className="mt-1.5 text-emerald-900/70 dark:text-emerald-200/80">
             Upload your doctor's prescription slip, list the medicines you need packaged, and our
             pharmacist will set it up for pickup.
           </p>
@@ -217,22 +217,22 @@ function RequestMedicinePage() {
 
         <div className="grid lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-7 space-y-6">
-            <div className="rounded-3xl border border-emerald-100 bg-white p-6 shadow-xl shadow-emerald-950/5">
-              <h2 className="text-lg font-bold text-emerald-950 flex items-center gap-2 mb-2">
+            <div className="rounded-3xl border border-emerald-100 dark:border-emerald-800/60 bg-white p-6 shadow-xl shadow-emerald-950/5">
+              <h2 className="text-lg font-bold text-emerald-950 dark:text-white flex items-center gap-2 mb-2">
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 text-xs">
                   1
                 </span>
                 Upload Prescription Photo
               </h2>
-              <p className="text-xs text-emerald-900/60 mb-4">
+              <p className="text-xs text-emerald-900/60 dark:text-emerald-200/70 mb-4">
                 Please upload a photo of your doctor's slip as a proof to verify prescribed
                 medications.
               </p>
 
               {prescriptionPreview ? (
-                <div className="relative border border-emerald-100 rounded-2xl bg-emerald-50/20 p-4 flex items-center justify-between">
+                <div className="relative border border-emerald-100 dark:border-emerald-800/60 rounded-2xl bg-emerald-50/20 p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="h-14 w-14 rounded-lg overflow-hidden border border-emerald-100 bg-white flex items-center justify-center">
+                    <div className="h-14 w-14 rounded-lg overflow-hidden border border-emerald-100 dark:border-emerald-800/60 bg-white flex items-center justify-center">
                       <img
                         src={prescriptionPreview}
                         alt="Prescription"
@@ -240,10 +240,10 @@ function RequestMedicinePage() {
                       />
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-emerald-950 truncate max-w-[200px]">
+                      <p className="text-sm font-semibold text-emerald-950 dark:text-white truncate max-w-[200px]">
                         {prescriptionFile?.name}
                       </p>
-                      <p className="text-[10px] text-emerald-950/50">
+                      <p className="text-[10px] text-emerald-950/50 dark:text-emerald-100/50">
                         {(prescriptionFile!.size / 1024 / 1024).toFixed(2)} MB
                       </p>
                     </div>
@@ -251,19 +251,19 @@ function RequestMedicinePage() {
                   <Button
                     size="icon"
                     variant="ghost"
-                    className="h-8 w-8 text-emerald-900/50 hover:text-red-500"
+                    className="h-8 w-8 text-emerald-900/50 dark:text-emerald-200/60 hover:text-red-500"
                     onClick={handleRemoveFile}
                   >
                     <X className="h-5 w-5" />
                   </Button>
                 </div>
               ) : (
-                <label className="border-2 border-dashed border-emerald-100 rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-emerald-50/30 transition group">
-                  <UploadCloud className="h-8 w-8 text-emerald-900/40 group-hover:text-emerald-600 transition mb-2" />
-                  <span className="text-sm font-semibold text-emerald-950">
+                <label className="border-2 border-dashed border-emerald-100 dark:border-emerald-800/60 rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-emerald-50/30 transition group">
+                  <UploadCloud className="h-8 w-8 text-emerald-900/40 dark:text-emerald-200/50 group-hover:text-emerald-600 transition mb-2" />
+                  <span className="text-sm font-semibold text-emerald-950 dark:text-white">
                     Click to upload prescription
                   </span>
-                  <span className="text-[10px] text-emerald-900/50 mt-0.5">
+                  <span className="text-[10px] text-emerald-900/50 dark:text-emerald-200/60 mt-0.5">
                     Supports PNG, JPG, PDF up to 5MB
                   </span>
                   <input
@@ -276,14 +276,14 @@ function RequestMedicinePage() {
               )}
             </div>
 
-            <div className="rounded-3xl border border-emerald-100 bg-white p-6 shadow-xl shadow-emerald-950/5">
-              <h2 className="text-lg font-bold text-emerald-950 flex items-center gap-2 mb-2">
+            <div className="rounded-3xl border border-emerald-100 dark:border-emerald-800/60 bg-white p-6 shadow-xl shadow-emerald-950/5">
+              <h2 className="text-lg font-bold text-emerald-950 dark:text-white flex items-center gap-2 mb-2">
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 text-xs">
                   2
                 </span>
                 Specify Medicines to Pack
               </h2>
-              <p className="text-xs text-emerald-900/60 mb-4">
+              <p className="text-xs text-emerald-900/60 dark:text-emerald-200/70 mb-4">
                 Type the names and quantities of the medicines you want our team to package.
               </p>
 
@@ -291,7 +291,7 @@ function RequestMedicinePage() {
                 <div className="flex-1">
                   <Input
                     placeholder="Enter medicine name (e.g. Paracetamol 650mg)"
-                    className="h-11 border-emerald-100 rounded-xl focus-visible:ring-emerald-500"
+                    className="h-11 border-emerald-100 dark:border-emerald-800/60 rounded-xl focus-visible:ring-emerald-500"
                     value={customName}
                     onChange={(e) => setCustomName(e.target.value)}
                   />
@@ -300,7 +300,7 @@ function RequestMedicinePage() {
                   <Input
                     type="number"
                     min={1}
-                    className="h-11 border-emerald-100 rounded-xl text-center focus-visible:ring-emerald-500"
+                    className="h-11 border-emerald-100 dark:border-emerald-800/60 rounded-xl text-center focus-visible:ring-emerald-500"
                     value={customQty}
                     onChange={(e) => setCustomQty(parseInt(e.target.value) || 1)}
                   />
@@ -316,14 +316,14 @@ function RequestMedicinePage() {
           </div>
 
           <div className="lg:col-span-5 space-y-6">
-            <div className="rounded-3xl border border-emerald-100 bg-white p-6 shadow-xl shadow-emerald-950/5 sticky top-24">
-              <h2 className="text-xl font-extrabold text-emerald-950 border-b border-emerald-50 pb-4 mb-4">
+            <div className="rounded-3xl border border-emerald-100 dark:border-emerald-800/60 bg-white p-6 shadow-xl shadow-emerald-950/5 sticky top-24">
+              <h2 className="text-xl font-extrabold text-emerald-950 dark:text-white border-b border-emerald-50 pb-4 mb-4">
                 Medicines List
               </h2>
 
               {selectedItems.length === 0 ? (
-                <div className="py-12 text-center text-emerald-900/40">
-                  <Pill className="h-10 w-10 mx-auto text-emerald-900/20 mb-2" />
+                <div className="py-12 text-center text-emerald-900/40 dark:text-emerald-200/50">
+                  <Pill className="h-10 w-10 mx-auto text-emerald-900/20 dark:text-emerald-200/30 mb-2" />
                   <p className="text-sm font-semibold">No medicines specified yet</p>
                   <p className="text-xs mt-0.5">Use the specify tool on the left to add items.</p>
                 </div>
@@ -335,22 +335,22 @@ function RequestMedicinePage() {
                       className="flex justify-between items-center py-2 border-b border-emerald-50/50 last:border-b-0 last:bg-transparent"
                     >
                       <div>
-                        <p className="text-sm font-bold text-emerald-950 flex items-center gap-1.5">
+                        <p className="text-sm font-bold text-emerald-950 dark:text-white flex items-center gap-1.5">
                           {item.name}
                         </p>
-                        <p className="text-xs text-emerald-950/50">
+                        <p className="text-xs text-emerald-950/50 dark:text-emerald-100/50">
                           Price set by pharmacist on packaging
                         </p>
                       </div>
                       <div className="flex items-center gap-3">
-                        <div className="flex items-center rounded-lg border border-emerald-100 bg-emerald-50/20">
+                        <div className="flex items-center rounded-lg border border-emerald-100 dark:border-emerald-800/60 bg-emerald-50/20">
                           <button
                             className="px-2 py-1 text-emerald-800 font-bold hover:bg-emerald-50 transition text-sm"
                             onClick={() => handleQuantityChange(index, item.quantity - 1)}
                           >
                             -
                           </button>
-                          <span className="px-2 text-xs font-bold text-emerald-950">
+                          <span className="px-2 text-xs font-bold text-emerald-950 dark:text-white">
                             {item.quantity}
                           </span>
                           <button
@@ -363,7 +363,7 @@ function RequestMedicinePage() {
                         <Button
                           size="icon"
                           variant="ghost"
-                          className="h-8 w-8 text-emerald-900/50 hover:text-red-500 rounded-lg"
+                          className="h-8 w-8 text-emerald-900/50 dark:text-emerald-200/60 hover:text-red-500 rounded-lg"
                           onClick={() => handleRemoveItem(index)}
                         >
                           <Trash2 className="h-4 w-4" />
@@ -375,13 +375,16 @@ function RequestMedicinePage() {
               )}
 
               <div className="space-y-1.5 mb-6">
-                <Label htmlFor="notes" className="text-xs font-bold text-emerald-950">
+                <Label
+                  htmlFor="notes"
+                  className="text-xs font-bold text-emerald-950 dark:text-white"
+                >
                   Special Instructions
                 </Label>
                 <Textarea
                   id="notes"
                   placeholder="Specify chronic history, allergies, dosage preferences, or general notes."
-                  className="min-h-[80px] border-emerald-100 rounded-xl focus-visible:ring-emerald-500 text-xs"
+                  className="min-h-[80px] border-emerald-100 dark:border-emerald-800/60 rounded-xl focus-visible:ring-emerald-500 text-xs"
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                 />
