@@ -91,6 +91,26 @@ export const sendCustomerPackagingEmail = createServerFn({ method: "POST" })
     return sendMail(data.customerEmail, subject, html);
   });
 
+export const sendCustomerPickupCompletedEmail = createServerFn({ method: "POST" })
+  .validator((d: { orderId: string; customerEmail: string }) => d)
+  .handler(async ({ data }) => {
+    const cleanId = data.orderId.replace("mock_", "");
+    const subject = `[Taj Medicals] Thank you! Order #${cleanId.slice(0, 8)} Completed`;
+    const html = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+        <h2 style="color: #059669; border-bottom: 2px solid #10b981; padding-bottom: 10px;">Thank You for Choosing Taj Medicals!</h2>
+        <p>Your medicines for <strong>Order #${cleanId.slice(0, 8)}</strong> have been picked up successfully.</p>
+        <p>We hope your medicines help you feel better soon. Take care and visit us again!</p>
+        <div style="margin-top: 20px; padding: 15px; background-color: #f0fdf4; border-radius: 8px; text-align: center;">
+          <p style="font-size: 18px; font-weight: bold; color: #059669;">🙏 Thank You!</p>
+          <p style="font-size: 14px; color: #166534;">We look forward to serving you again.</p>
+        </div>
+        <p style="margin-top: 20px;"><strong>Taj Medicals</strong><br>Beside Praveen Hardware, Arya Nagar, Koradi Naka, Nagpur<br>Phone: 9869782706</p>
+      </div>
+    `;
+    return sendMail(data.customerEmail, subject, html);
+  });
+
 export const sendCustomerPaymentConfirmedEmail = createServerFn({ method: "POST" })
   .validator((d: { orderId: string; customerEmail: string; totalPrice: number }) => d)
   .handler(async ({ data }) => {
