@@ -17,7 +17,11 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "Sign in — Taj Medicals" },
-      { name: "description", content: "Sign in or create an account with Taj Medicals to track prescriptions and orders." },
+      {
+        name: "description",
+        content:
+          "Sign in or create an account with Taj Medicals to track prescriptions and orders.",
+      },
     ],
   }),
   component: AuthPage,
@@ -44,7 +48,7 @@ function AuthPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    
+
     // Simulate minor delay for realistic Clerk authentication feel
     setTimeout(() => {
       try {
@@ -83,7 +87,6 @@ function AuthPage() {
     }, 800);
   };
 
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-emerald-500/10 via-white to-emerald-500/5 p-4 sm:p-6 lg:p-8">
       {/* Background patterns */}
@@ -97,29 +100,39 @@ function AuthPage() {
           <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-lg shadow-emerald-600/30">
             <Pill className="h-6 w-6" />
           </div>
-          <span className="text-2xl font-black tracking-tight text-emerald-950">Taj Medicals</span>
+          <span className="text-2xl font-black tracking-tight text-emerald-950 dark:text-white">
+            Taj Medicals
+          </span>
         </Link>
 
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-extrabold tracking-tight text-emerald-950">
+          <h1 className="text-3xl font-extrabold tracking-tight text-emerald-950 dark:text-white">
             {isSignup ? "Create your account" : "Welcome back"}
           </h1>
-          <p className="mt-2 text-emerald-900/60 text-sm">
-            {isSignup ? "Select your role and register in seconds" : "Sign in to manage your medical orders"}
+          <p className="mt-2 text-emerald-900/60 dark:text-emerald-300/80 text-sm">
+            {isSignup
+              ? "Select your role and register in seconds"
+              : "Sign in to manage your medical orders"}
           </p>
         </div>
 
         {/* Info banner */}
-        <div className="flex items-start gap-2.5 rounded-2xl border border-emerald-100 bg-emerald-50/50 px-4 py-3 text-xs text-emerald-900/80 mb-6">
+        <div className="flex items-start gap-2.5 rounded-2xl border border-emerald-100 dark:border-emerald-800/60 bg-emerald-50/50 dark:bg-emerald-900/30 px-4 py-3 text-xs text-emerald-900/80 dark:text-emerald-300/80 mb-6">
           <AlertCircle className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
           <span>
-            <strong>New customer?</strong> Create a free account with your email below. Admin login is reserved for store staff only.
+            <strong>New customer?</strong> Create a free account with your email below. Admin login
+            is reserved for store staff only.
           </span>
         </div>
         <form onSubmit={handleSubmit} className="space-y-5">
           {isSignup && (
             <div className="space-y-1.5">
-              <Label htmlFor="fullName" className="text-xs font-bold text-emerald-950">Full Name</Label>
+              <Label
+                htmlFor="fullName"
+                className="text-xs font-bold text-emerald-950 dark:text-emerald-100"
+              >
+                Full Name
+              </Label>
               <Input
                 id="fullName"
                 placeholder="John Doe"
@@ -132,7 +145,12 @@ function AuthPage() {
           )}
 
           <div className="space-y-1.5">
-            <Label htmlFor="email" className="text-xs font-bold text-emerald-950">Email Address</Label>
+            <Label
+              htmlFor="email"
+              className="text-xs font-bold text-emerald-950 dark:text-emerald-100"
+            >
+              Email Address
+            </Label>
             <Input
               id="email"
               type="email"
@@ -145,7 +163,12 @@ function AuthPage() {
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="password" className="text-xs font-bold text-emerald-950">Password</Label>
+            <Label
+              htmlFor="password"
+              className="text-xs font-bold text-emerald-950 dark:text-emerald-100"
+            >
+              Password
+            </Label>
             <Input
               id="password"
               type="password"
@@ -175,18 +198,16 @@ function AuthPage() {
           </Button>
         </form>
 
-        <p className="mt-8 text-center text-sm text-emerald-900/60 font-medium">
+        <p className="mt-8 text-center text-sm text-emerald-900/60 dark:text-emerald-300/80 font-medium">
           {isSignup ? "Already have an account? " : "Don't have an account? "}
           <Link
             to="/auth"
             search={{ mode: isSignup ? "login" : "signup" }}
-            className="font-bold text-emerald-600 hover:text-emerald-700 underline underline-offset-4"
+            className="font-bold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 underline underline-offset-4"
           >
             {isSignup ? "Sign in" : "Create one"}
           </Link>
         </p>
-
-
       </div>
     </div>
   );
