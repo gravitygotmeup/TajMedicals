@@ -1,24 +1,19 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import {
   Pill,
   Sparkles,
   ShieldCheck,
   ArrowLeft,
-  Lock,
   Calendar,
-  CheckCircle,
   MapPin,
   Phone,
 } from "lucide-react";
-import { sendCustomerPaymentConfirmedEmail } from "@/lib/email.server";
 
 export const Route = createFileRoute("/_authenticated/payment/$orderId")({
   head: () => ({ meta: [{ title: "Online Payment — Taj Medicals" }] }),
@@ -46,8 +41,6 @@ function PaymentPage() {
 
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
-  const [paying, setPaying] = useState(false);
-  // Card states removed since we are using UPI/counter payment
 
   useEffect(() => {
     (async () => {
@@ -68,47 +61,6 @@ function PaymentPage() {
       }
     })();
   }, [orderId]);
-
-  const handleConfirmUpiPayment = async () => {
-    if (!order) return;
-    setPaying(true);
-
-    // Simulate multi-step secure payment flow
-    setTimeout(async () => {
-      try {
-        // 1. Update status in Supabase database
-        const { error } = await supabase
-          .from("orders")
-          .update({
-            payment_status: "paid",
-          })
-          .eq("id", order.id);
-
-        if (error) throw error;
-
-        // 2. Send payment confirmation email (non-blocking)
-        try {
-          await sendCustomerPaymentConfirmedEmail({
-            data: {
-              orderId: order.id,
-              customerEmail: order.user_email,
-              totalPrice: order.total_price,
-            },
-          });
-        } catch (emailErr) {
-          console.error("Failed to send payment confirmation email", emailErr);
-        }
-
-        toast.success("Payment recorded! Your medicines are ready for pickup.");
-        navigate({ to: "/my-orders" });
-      } catch (err) {
-        console.error("Payment confirmation failed", err);
-        toast.error("Failed to update payment status. Please try again.");
-      } finally {
-        setPaying(false);
-      }
-    }, 1500);
-  };
 
   if (loading) {
     return (
@@ -151,24 +103,6 @@ function PaymentPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-emerald-50/30 via-white to-emerald-50/10 dark:from-emerald-950 dark:via-emerald-950 dark:to-emerald-900/30">
       <SiteHeader />
-
-      {/* Paying Overlay */}
-      {paying && (
-        <div className="fixed inset-0 bg-emerald-950/80 backdrop-blur-md z-50 flex flex-col items-center justify-center text-white">
-          <div className="rounded-3xl bg-white/10 p-8 flex flex-col items-center max-w-sm text-center">
-            <ShieldCheck className="h-12 w-12 animate-pulse text-emerald-400 mb-4" />
-            <h3 className="text-lg font-bold">Verifying UPI Status</h3>
-            <p className="text-xs text-white/70 mt-2 leading-relaxed">
-              Recording your payment request. Please do not close or reload this window.
-            </p>
-            <div className="mt-6 flex gap-1.5 justify-center">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-bounce" />
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-bounce [animation-delay:0.2s]" />
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-bounce [animation-delay:0.4s]" />
-            </div>
-          </div>
-        </div>
-      )}
 
       <main className="flex-1 mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 py-10">
         <div className="flex items-center gap-2 mb-6">
@@ -287,26 +221,23 @@ function PaymentPage() {
                     hellotajmedicals@okaxis
                   </span>
                 </p>
-                <p className="text-sm font-black text-emerald-950 dark:text-white mb-4">
+                <p className="text-sm font-black text-emerald-950 dark:text-white mb-2">
                   Amount Due:{" "}
                   <span className="text-emerald-700 font-mono">₹{total.toFixed(2)}</span>
                 </p>
-                <Button
-                  onClick={handleConfirmUpiPayment}
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold shadow-md shadow-emerald-600/10 h-11 flex items-center justify-center gap-1.5"
-                >
-                  <CheckCircle className="h-5 w-5" /> I Have Paid via UPI QR
-                </Button>
+                <p className="text-[11px] text-emerald-900/60 dark:text-emerald-200/70">
+                  Show payment screenshot at the counter during pickup.
+                </p>
               </div>
 
-              {/* Option 2: Pay at shop counter */}
+              {/* Pay at shop counter */}
               <div className="border border-emerald-100/80 dark:border-emerald-800/60 rounded-2xl p-5 bg-white dark:bg-emerald-900/30 flex flex-col">
-                <span className="self-center inline-flex rounded-full bg-emerald-50 dark:bg-emerald-800/50 px-3 py-1 text-[10px] font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wider mb-3">
-                  Option 2: Pay at Shop Counter
+                <span className="self-center inline-flex rounded-full bg-emerald-600 px-3 py-1 text-[10px] font-bold text-white uppercase tracking-wider mb-3">
+                  Pay at Counter & Pick Up
                 </span>
                 <p className="text-xs text-emerald-950/70 dark:text-emerald-100/70 text-center mb-4 leading-relaxed">
-                  You can choose to pay via Cash, Card, or UPI scan directly at the counter when you
-                  pick up your medicines.
+                  Visit the shop counter with your pickup code. Pay via Cash, Card, or UPI — the
+                  pharmacist will hand over your packaged medicines.
                 </p>
                 <div className="border-t border-emerald-50 pt-4 space-y-3">
                   <div className="flex gap-3 text-xs">
@@ -344,7 +275,7 @@ function PaymentPage() {
                   variant="outline"
                   className="w-full mt-4 border-emerald-100 dark:border-emerald-800/60 hover:bg-emerald-50 rounded-xl font-bold h-11"
                 >
-                  <Link to="/my-orders">Pay at Counter (Return to My Orders)</Link>
+                  <Link to="/my-orders">Back to My Orders</Link>
                 </Button>
               </div>
             </div>
