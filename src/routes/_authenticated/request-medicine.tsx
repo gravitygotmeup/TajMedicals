@@ -189,7 +189,7 @@ function RequestMedicinePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-emerald-50/20">
+    <div className="min-h-screen flex flex-col bg-emerald-50/20 dark:bg-emerald-950/80">
       <SiteHeader />
       <main className="flex-1 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-wrap items-center gap-3 mb-6">
@@ -197,7 +197,7 @@ function RequestMedicinePage() {
             asChild
             variant="ghost"
             size="sm"
-            className="text-emerald-800 hover:bg-emerald-50 rounded-xl"
+            className="text-emerald-800 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/50 rounded-xl"
           >
             <Link to="/">
               <ArrowLeft className="h-4 w-4 mr-1.5" /> Back to Home
@@ -343,7 +343,7 @@ function RequestMedicinePage() {
                         </p>
                       </div>
                       <div className="flex items-center gap-3">
-                        <div className="flex items-center rounded-lg border border-emerald-100 dark:border-emerald-800/60 bg-emerald-50/20">
+                        <div className="flex items-center rounded-lg border border-emerald-100 dark:border-emerald-800/60 bg-emerald-50/20 dark:bg-emerald-900/30">
                           <button
                             className="px-2 py-1 text-emerald-800 font-bold hover:bg-emerald-50 transition text-sm"
                             onClick={() => handleQuantityChange(index, item.quantity - 1)}
@@ -410,7 +410,7 @@ function RequestMedicinePage() {
                 <Button
                   asChild
                   variant="ghost"
-                  className="w-full text-emerald-800 hover:bg-emerald-50 rounded-xl"
+                  className="w-full text-emerald-800 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/50 rounded-xl"
                 >
                   <Link to="/my-orders">View Active Requests</Link>
                 </Button>

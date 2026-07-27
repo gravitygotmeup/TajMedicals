@@ -88,14 +88,14 @@ function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-emerald-500/10 via-white to-emerald-500/5 p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-emerald-500/10 via-white to-emerald-500/5 dark:from-emerald-950 dark:via-emerald-950 dark:to-emerald-900/50 p-4 sm:p-6 lg:p-8">
       {/* Background patterns */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-[20%] left-[10%] w-[350px] h-[350px] rounded-full bg-emerald-300/20 blur-[80px]" />
-        <div className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-full bg-emerald-400/10 blur-[100px]" />
+        <div className="absolute top-[20%] left-[10%] w-[350px] h-[350px] rounded-full bg-emerald-300/20 blur-[80px] dark:bg-emerald-600/10" />
+        <div className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-full bg-emerald-400/10 blur-[100px] dark:bg-emerald-500/5" />
       </div>
 
-      <div className="w-full max-w-lg rounded-3xl border border-emerald-100/50 bg-white/70 backdrop-blur-md p-6 sm:p-10 shadow-2xl shadow-emerald-950/5">
+      <div className="w-full max-w-lg rounded-3xl border border-emerald-100/50 dark:border-emerald-800/50 bg-white/70 dark:bg-emerald-950/80 backdrop-blur-md p-6 sm:p-10 shadow-2xl shadow-emerald-950/5">
         <Link to="/" className="flex items-center justify-center gap-2.5 mb-8">
           <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-lg shadow-emerald-600/30">
             <Pill className="h-6 w-6" />

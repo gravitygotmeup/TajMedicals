@@ -187,21 +187,21 @@ export function UserButton() {
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 mt-2 w-56 origin-top-right rounded-xl border border-emerald-100 bg-white p-3 shadow-xl z-50">
-            <p className="text-sm font-bold text-emerald-950">{user.fullName}</p>
-            <p className="text-xs text-emerald-800/60 truncate">{user.primaryEmailAddress.emailAddress}</p>
+          <div className="absolute left-0 sm:right-0 sm:left-auto mt-2 w-56 origin-top-left sm:origin-top-right rounded-xl border border-emerald-100 dark:border-emerald-800 bg-white dark:bg-emerald-950 p-3 shadow-xl z-50">
+            <p className="text-sm font-bold text-emerald-950 dark:text-emerald-100">{user.fullName}</p>
+            <p className="text-xs text-emerald-800/60 dark:text-emerald-300/60 truncate">{user.primaryEmailAddress.emailAddress}</p>
             <div className="mt-1">
-              <span className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-bold ${user.role === "admin" ? "bg-red-100 text-red-700" : "bg-emerald-100 text-emerald-700"}`}>
+              <span className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-bold ${user.role === "admin" ? "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400" : "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400"}`}>
                 {user.role === "admin" ? "Admin / Owner" : "Customer"}
               </span>
             </div>
-            <div className="my-2 border-t border-emerald-50" />
+            <div className="my-2 border-t border-emerald-50 dark:border-emerald-800" />
             <button
               onClick={() => {
                 setOpen(false);
                 signOut();
               }}
-              className="w-full text-left rounded-lg px-2 py-1.5 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition"
+              className="w-full text-left rounded-lg px-2 py-1.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-700 dark:hover:text-red-300 transition"
             >
               Sign out
             </button>

@@ -112,7 +112,7 @@ function PaymentPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col bg-emerald-50/20">
+      <div className="min-h-screen flex flex-col bg-emerald-50/20 dark:bg-emerald-950/80">
         <SiteHeader />
         <main className="flex-1 flex flex-col items-center justify-center py-20">
           <Sparkles className="h-8 w-8 animate-spin text-emerald-600" />
@@ -127,7 +127,7 @@ function PaymentPage() {
 
   if (!order) {
     return (
-      <div className="min-h-screen flex flex-col bg-emerald-50/20">
+      <div className="min-h-screen flex flex-col bg-emerald-50/20 dark:bg-emerald-950/80">
         <SiteHeader />
         <main className="flex-1 mx-auto max-w-md px-4 py-20 text-center">
           <h2 className="text-xl font-bold text-emerald-950 dark:text-white">Invoice not found</h2>
@@ -149,7 +149,7 @@ function PaymentPage() {
   const total = order.total_price; // Total set by pharmacist, no extra fees
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-emerald-50/30 via-white to-emerald-50/10">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-emerald-50/30 via-white to-emerald-50/10 dark:from-emerald-950 dark:via-emerald-950 dark:to-emerald-900/30">
       <SiteHeader />
 
       {/* Paying Overlay */}
@@ -176,7 +176,7 @@ function PaymentPage() {
             asChild
             variant="ghost"
             size="sm"
-            className="text-emerald-800 hover:bg-emerald-50 rounded-xl"
+            className="text-emerald-800 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/50 rounded-xl"
           >
             <Link to="/my-orders">
               <ArrowLeft className="h-4 w-4 mr-1.5" /> Back to My Orders
@@ -237,11 +237,11 @@ function PaymentPage() {
             </div>
 
             {/* Security assurance */}
-            <div className="flex gap-2 bg-emerald-50/30 border border-emerald-100/50 rounded-2xl p-3.5 text-xs text-emerald-950 dark:text-white">
+            <div className="flex gap-2 bg-emerald-50/30 dark:bg-emerald-900/30 border border-emerald-100/50 dark:border-emerald-800/60 rounded-2xl p-3.5 text-xs text-emerald-950 dark:text-white">
               <ShieldCheck className="h-5 w-5 text-emerald-600 shrink-0" />
               <div>
                 <p className="font-bold">Sterile Sealed Guarantee</p>
-                <p className="text-emerald-950/60 leading-relaxed mt-0.5">
+                <p className="text-emerald-950/60 dark:text-emerald-300/60 leading-relaxed mt-0.5">
                   Your prescription is packed in a certified tamper-proof bag under medical grade
                   supervision.
                 </p>
@@ -300,8 +300,8 @@ function PaymentPage() {
               </div>
 
               {/* Option 2: Pay at shop counter */}
-              <div className="border border-emerald-100/80 rounded-2xl p-5 bg-white flex flex-col">
-                <span className="self-center inline-flex rounded-full bg-emerald-50 px-3 py-1 text-[10px] font-bold text-emerald-700 uppercase tracking-wider mb-3">
+              <div className="border border-emerald-100/80 dark:border-emerald-800/60 rounded-2xl p-5 bg-white dark:bg-emerald-900/30 flex flex-col">
+                <span className="self-center inline-flex rounded-full bg-emerald-50 dark:bg-emerald-800/50 px-3 py-1 text-[10px] font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wider mb-3">
                   Option 2: Pay at Shop Counter
                 </span>
                 <p className="text-xs text-emerald-950/70 dark:text-emerald-100/70 text-center mb-4 leading-relaxed">

@@ -317,6 +317,20 @@ function AdminPage() {
     }
   };
 
+  const handleDeleteOrder = async (orderId: string) => {
+    if (!confirm("Delete this order permanently? This cannot be undone.")) return;
+    try {
+      const { error } = await supabase.from("orders").delete().eq("id", orderId);
+      if (error) throw error;
+      toast.success("Order deleted.");
+      if (activeProcessingOrder?.id === orderId) setActiveProcessingOrder(null);
+      fetchOrders();
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to delete order.");
+    }
+  };
+
   // Stats Calculations
   const sales = orders
     .filter((o) => o.payment_status === "paid")
@@ -328,7 +342,7 @@ function AdminPage() {
 
   if (user?.role !== "admin") {
     return (
-      <div className="min-h-screen flex flex-col bg-emerald-50/20">
+      <div className="min-h-screen flex flex-col bg-emerald-50/20 dark:bg-emerald-950/80">
         <SiteHeader />
         <main className="flex-1 flex flex-col items-center justify-center py-20 text-center">
           <ShieldAlert className="h-10 w-10 text-red-500 mb-2" />
@@ -345,7 +359,7 @@ function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-emerald-50/10">
+    <div className="min-h-screen flex flex-col bg-emerald-50/10 dark:bg-emerald-950/80">
       <SiteHeader />
       <main className="flex-1 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
         {/* Title */}
@@ -366,7 +380,7 @@ function AdminPage() {
               fetchOrders();
               fetchInventory();
             }}
-            className="border-emerald-100 bg-white"
+            className="border-emerald-100 bg-white dark:bg-emerald-900/40 dark:border-emerald-800/60"
           >
             <RefreshCw className="h-4 w-4 mr-1.5" /> Refresh Data
           </Button>
@@ -374,8 +388,8 @@ function AdminPage() {
 
         {/* Overview Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <div className="rounded-2xl border border-emerald-100 bg-white p-5 shadow-lg shadow-emerald-950/5 flex items-center gap-4">
-            <div className="rounded-xl bg-emerald-100 p-3 text-emerald-700">
+          <div className="rounded-2xl border border-emerald-100 dark:border-emerald-800/60 bg-white dark:bg-emerald-900/30 p-5 shadow-lg shadow-emerald-950/5 flex items-center gap-4">
+            <div className="rounded-xl bg-emerald-100 dark:bg-emerald-800/60 p-3 text-emerald-700 dark:text-emerald-300">
               <TrendingUp className="h-6 w-6" />
             </div>
             <div>
@@ -388,8 +402,8 @@ function AdminPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-emerald-100 bg-white p-5 shadow-lg shadow-emerald-950/5 flex items-center gap-4">
-            <div className="rounded-xl bg-amber-100 p-3 text-amber-700">
+          <div className="rounded-2xl border border-emerald-100 dark:border-emerald-800/60 bg-white dark:bg-emerald-900/30 p-5 shadow-lg shadow-emerald-950/5 flex items-center gap-4">
+            <div className="rounded-xl bg-amber-100 dark:bg-amber-900/40 p-3 text-amber-700 dark:text-amber-300">
               <ClipboardList className="h-6 w-6" />
             </div>
             <div>
@@ -402,8 +416,8 @@ function AdminPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-emerald-100 bg-white p-5 shadow-lg shadow-emerald-950/5 flex items-center gap-4">
-            <div className="rounded-xl bg-blue-100 p-3 text-blue-700">
+          <div className="rounded-2xl border border-emerald-100 dark:border-emerald-800/60 bg-white dark:bg-emerald-900/30 p-5 shadow-lg shadow-emerald-950/5 flex items-center gap-4">
+            <div className="rounded-xl bg-blue-100 dark:bg-blue-900/40 p-3 text-blue-700 dark:text-blue-300">
               <PackageCheck className="h-6 w-6" />
             </div>
             <div>
@@ -416,8 +430,8 @@ function AdminPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-emerald-100 bg-white p-5 shadow-lg shadow-emerald-950/5 flex items-center gap-4">
-            <div className="rounded-xl bg-gray-100 p-3 text-gray-700">
+          <div className="rounded-2xl border border-emerald-100 dark:border-emerald-800/60 bg-white dark:bg-emerald-900/30 p-5 shadow-lg shadow-emerald-950/5 flex items-center gap-4">
+            <div className="rounded-xl bg-gray-100 dark:bg-gray-800 p-3 text-gray-700 dark:text-gray-300">
               <CheckCircle2 className="h-6 w-6" />
             </div>
             <div>
@@ -433,16 +447,16 @@ function AdminPage() {
 
         {/* Main Content Area: Tabs */}
         <Tabs defaultValue="queue" className="space-y-6">
-          <TabsList className="bg-white border border-emerald-100 rounded-xl p-1 w-full max-w-sm">
+          <TabsList className="bg-white dark:bg-emerald-900/40 border border-emerald-100 dark:border-emerald-800/60 rounded-xl p-1 w-full max-w-sm">
             <TabsTrigger
               value="queue"
-              className="rounded-lg font-bold data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+              className="rounded-lg font-bold text-emerald-800 dark:text-emerald-300 data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
             >
               Order Queue
             </TabsTrigger>
             <TabsTrigger
               value="inventory"
-              className="rounded-lg font-bold data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+              className="rounded-lg font-bold text-emerald-800 dark:text-emerald-300 data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
             >
               Inventory Catalog
             </TabsTrigger>
@@ -455,7 +469,7 @@ function AdminPage() {
                 <Sparkles className="h-6 w-6 animate-spin text-emerald-600" /> Loading Queue...
               </div>
             ) : orders.length === 0 ? (
-              <div className="py-12 text-center text-emerald-900/50 dark:text-emerald-200/60 bg-white border border-emerald-100 rounded-3xl">
+              <div className="py-12 text-center text-emerald-900/50 dark:text-emerald-200/60 bg-white dark:bg-emerald-900/30 border border-emerald-100 dark:border-emerald-800/60 rounded-3xl">
                 No orders have been received yet.
               </div>
             ) : (
@@ -467,10 +481,10 @@ function AdminPage() {
                   {orders.map((order) => (
                     <div
                       key={order.id}
-                      className={`p-5 rounded-2xl border transition bg-white ${
+                      className={`p-5 rounded-2xl border transition bg-white dark:bg-emerald-900/30 ${
                         activeProcessingOrder?.id === order.id
-                          ? "border-emerald-500 shadow-md ring-2 ring-emerald-100"
-                          : "border-emerald-50 hover:shadow-md"
+                          ? "border-emerald-500 shadow-md ring-2 ring-emerald-100 dark:ring-emerald-800"
+                          : "border-emerald-50 dark:border-emerald-800/60 hover:shadow-md"
                       }`}
                     >
                       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-emerald-50 pb-3 mb-3">
@@ -481,14 +495,14 @@ function AdminPage() {
                           <span
                             className={`text-[10px] font-extrabold uppercase px-2 py-0.5 rounded ${
                               order.status === "pending_review"
-                                ? "bg-amber-100 text-amber-800"
+                                ? "bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300"
                                 : order.status === "packaging"
-                                  ? "bg-blue-100 text-blue-800"
+                                  ? "bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300"
                                   : order.status === "ready_to_pay"
-                                    ? "bg-orange-100 text-orange-800"
+                                    ? "bg-orange-100 dark:bg-orange-900/40 text-orange-800 dark:text-orange-300"
                                     : order.status === "ready_for_pickup"
-                                      ? "bg-emerald-100 text-emerald-800 animate-pulse"
-                                      : "bg-gray-100 text-gray-800"
+                                      ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 animate-pulse"
+                                      : "bg-gray-100 dark:bg-gray-800/60 text-gray-800 dark:text-gray-300"
                             }`}
                           >
                             {order.status.replace("_", " ")}
@@ -598,10 +612,20 @@ function AdminPage() {
                           )}
 
                           {order.status === "ready_to_pay" && (
-                            <span className="text-xs font-semibold text-orange-600 py-1.5 px-3 bg-orange-50 border border-orange-200 rounded-lg">
+                            <span className="text-xs font-semibold text-orange-600 dark:text-orange-400 py-1.5 px-3 bg-orange-50 dark:bg-orange-900/30 border border-orange-200 dark:border-orange-700/50 rounded-lg">
                               Awaiting Customer Payment
                             </span>
                           )}
+
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleDeleteOrder(order.id)}
+                            className="h-8 w-8 text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg shrink-0"
+                            title="Delete order"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
                         </div>
                       </div>
                     </div>
@@ -610,8 +634,8 @@ function AdminPage() {
 
                 {/* Packaging Review Deck (5 cols) */}
                 {activeProcessingOrder && (
-                  <div className="xl:col-span-5 rounded-3xl border-2 border-emerald-600 bg-white p-6 shadow-xl space-y-6">
-                    <div className="flex justify-between items-center border-b border-emerald-50 pb-3">
+                  <div className="xl:col-span-5 rounded-3xl border-2 border-emerald-600 bg-white dark:bg-emerald-950 p-6 shadow-xl space-y-6">
+                    <div className="flex justify-between items-center border-b border-emerald-50 dark:border-emerald-800 pb-3">
                       <h2 className="text-lg font-bold text-emerald-950 dark:text-white flex items-center gap-2">
                         Package & Invoice Order
                       </h2>
@@ -619,12 +643,13 @@ function AdminPage() {
                         variant="ghost"
                         size="sm"
                         onClick={() => setActiveProcessingOrder(null)}
+                        className="text-emerald-800 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/50 rounded-lg"
                       >
                         Cancel
                       </Button>
                     </div>
 
-                    <div className="text-xs text-emerald-900/60 dark:text-emerald-200/70 bg-emerald-50/30 border border-emerald-100/50 rounded-2xl p-4 space-y-2">
+                    <div className="text-xs text-emerald-900/60 dark:text-emerald-200/70 bg-emerald-50/30 dark:bg-emerald-900/30 border border-emerald-100/50 dark:border-emerald-800/60 rounded-2xl p-4 space-y-2">
                       <p>
                         <strong>Customer:</strong> {activeProcessingOrder.user_email}
                       </p>
@@ -638,7 +663,7 @@ function AdminPage() {
                       </p>
                     </div>
                     {/* Add new items dynamically if prescription is uploaded */}
-                    <div className="border border-emerald-100 rounded-2xl p-4 bg-emerald-50/20 space-y-3">
+                    <div className="border border-emerald-100 dark:border-emerald-800/60 rounded-2xl p-4 bg-emerald-50/20 dark:bg-emerald-900/20 space-y-3">
                       <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-950/60 dark:text-emerald-100/60">
                         Add Packaged Item
                       </h4>
@@ -693,7 +718,7 @@ function AdminPage() {
                         {processingItems.map((item, idx) => (
                           <div
                             key={idx}
-                            className="flex gap-3 justify-between items-center py-2.5 border-b border-emerald-50"
+                            className="flex gap-3 justify-between items-center py-2.5 border-b border-emerald-50 dark:border-emerald-800/60"
                           >
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-bold text-emerald-950 dark:text-white truncate flex items-center gap-1.5">
@@ -733,11 +758,11 @@ function AdminPage() {
                                   step="0.01"
                                   min="0"
                                   className="h-9 pl-4 pr-1 border-emerald-100 rounded-lg text-xs"
-                                  value={item.price || ""}
+                                  value={item.price === undefined ? "" : item.price}
                                   onChange={(e) =>
                                     handleProcessingItemPriceChange(
                                       idx,
-                                      parseFloat(e.target.value) || 0,
+                                      e.target.value === "" ? 0 : parseFloat(e.target.value) || 0,
                                     )
                                   }
                                 />
@@ -770,14 +795,14 @@ function AdminPage() {
                       <Textarea
                         id="adminNotes"
                         placeholder="Write medicine dosage instruction (e.g. 1 capsule after breakfast)."
-                        className="min-h-[80px] border-emerald-100 rounded-xl text-xs"
+                        className="min-h-[80px] border-emerald-100 dark:border-emerald-800/60 rounded-xl text-xs"
                         value={adminNotes}
                         onChange={(e) => setAdminNotes(e.target.value)}
                       />
                     </div>
 
                     {/* Actions */}
-                    <div className="pt-4 border-t border-emerald-50">
+                    <div className="pt-4 border-t border-emerald-50 dark:border-emerald-800">
                       <div className="flex justify-between items-center mb-4">
                         <span className="text-sm font-bold text-emerald-950 dark:text-white">
                           Subtotal calculation
@@ -808,7 +833,7 @@ function AdminPage() {
           <TabsContent value="inventory" className="space-y-6 outline-none">
             <div className="grid lg:grid-cols-12 gap-8 items-start">
               {/* Left Column: Medicines Catalog List (7 cols) */}
-              <div className="lg:col-span-7 rounded-3xl border border-emerald-100 bg-white p-6 shadow-xl shadow-emerald-950/5">
+              <div className="lg:col-span-7 rounded-3xl border border-emerald-100 dark:border-emerald-800/60 bg-white dark:bg-emerald-900/30 p-6 shadow-xl shadow-emerald-950/5">
                 <h2 className="text-lg font-bold text-emerald-950 dark:text-white mb-4">
                   Active Stock Catalog
                 </h2>
@@ -826,10 +851,10 @@ function AdminPage() {
                     {medicines.map((med) => (
                       <div
                         key={med.id}
-                        className="flex justify-between items-center p-3.5 rounded-2xl border border-emerald-50 bg-emerald-50/15 hover:bg-emerald-50/30 transition"
+                        className="flex justify-between items-center p-3.5 rounded-2xl border border-emerald-50 dark:border-emerald-800/60 bg-emerald-50/15 dark:bg-emerald-900/20 hover:bg-emerald-50/30 dark:hover:bg-emerald-900/40 transition"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="rounded-xl bg-emerald-100 p-2 text-emerald-700">
+                          <div className="rounded-xl bg-emerald-100 dark:bg-emerald-800/60 p-2 text-emerald-700 dark:text-emerald-300">
                             <Pill className="h-5 w-5" />
                           </div>
                           <div>
@@ -866,8 +891,8 @@ function AdminPage() {
               </div>
 
               {/* Right Column: Add Medicine form (5 cols) */}
-              <div className="lg:col-span-5 rounded-3xl border border-emerald-100 bg-white p-6 shadow-xl shadow-emerald-950/5">
-                <h2 className="text-lg font-bold text-emerald-950 dark:text-white border-b border-emerald-50 pb-3 mb-4">
+              <div className="lg:col-span-5 rounded-3xl border border-emerald-100 dark:border-emerald-800/60 bg-white dark:bg-emerald-900/30 p-6 shadow-xl shadow-emerald-950/5">
+                <h2 className="text-lg font-bold text-emerald-950 dark:text-white border-b border-emerald-50 dark:border-emerald-800 pb-3 mb-4">
                   Add Medicine
                 </h2>
 
@@ -883,7 +908,7 @@ function AdminPage() {
                       id="medName"
                       placeholder="e.g. Paracetamol 500mg"
                       required
-                      className="border-emerald-100 rounded-xl"
+                      className="border-emerald-100 dark:border-emerald-800/60 rounded-xl"
                       value={newMedName}
                       onChange={(e) => setNewMedName(e.target.value)}
                     />
@@ -899,7 +924,7 @@ function AdminPage() {
                     <Textarea
                       id="medDesc"
                       placeholder="Brief details about the drug..."
-                      className="border-emerald-100 rounded-xl text-xs"
+                      className="border-emerald-100 dark:border-emerald-800/60 rounded-xl text-xs"
                       value={newMedDesc}
                       onChange={(e) => setNewMedDesc(e.target.value)}
                     />
@@ -924,7 +949,7 @@ function AdminPage() {
                           min="0"
                           placeholder="0.00"
                           required
-                          className="pl-6 border-emerald-100 rounded-xl"
+                          className="pl-6 border-emerald-100 dark:border-emerald-800/60 rounded-xl"
                           value={newMedPrice}
                           onChange={(e) => setNewMedPrice(e.target.value)}
                         />
@@ -943,7 +968,7 @@ function AdminPage() {
                         type="number"
                         min="0"
                         placeholder="0"
-                        className="border-emerald-100 rounded-xl text-center"
+                        className="border-emerald-100 dark:border-emerald-800/60 rounded-xl text-center"
                         value={newMedStock}
                         onChange={(e) => setNewMedStock(e.target.value)}
                       />
@@ -959,7 +984,7 @@ function AdminPage() {
                     </Label>
                     <select
                       id="medCat"
-                      className="w-full h-10 px-3 border border-emerald-100 rounded-xl bg-white text-sm focus-visible:outline-emerald-500 focus-visible:ring-emerald-500"
+                      className="w-full h-10 px-3 border border-emerald-100 dark:border-emerald-800/60 rounded-xl bg-white dark:bg-emerald-900/40 text-sm dark:text-emerald-100 focus-visible:outline-emerald-500 focus-visible:ring-emerald-500"
                       value={newMedCategory}
                       onChange={(e) => setNewMedCategory(e.target.value)}
                     >

@@ -98,37 +98,37 @@ function MyOrdersPage() {
     switch (status) {
       case "pending_review":
         return (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-3 py-1 text-xs font-semibold text-amber-700">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-700/50 px-3 py-1 text-xs font-semibold text-amber-700 dark:text-amber-400">
             <FileClock className="h-3.5 w-3.5" /> Pending Review
           </span>
         );
       case "packaging":
         return (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 border border-blue-200 px-3 py-1 text-xs font-semibold text-blue-700">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700/50 px-3 py-1 text-xs font-semibold text-blue-700 dark:text-blue-400">
             <Package className="h-3.5 w-3.5" /> Packaging
           </span>
         );
       case "ready_to_pay":
         return (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-50 border border-orange-200 px-3 py-1 text-xs font-semibold text-orange-700">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-50 dark:bg-orange-900/30 border border-orange-200 dark:border-orange-700/50 px-3 py-1 text-xs font-semibold text-orange-700 dark:text-orange-400">
             <CreditCard className="h-3.5 w-3.5" /> Awaiting Payment
           </span>
         );
       case "ready_for_pickup":
         return (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-xs font-semibold text-emerald-700 animate-pulse">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-700/50 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400 animate-pulse">
             <CheckCircle className="h-3.5 w-3.5" /> Ready for Pickup
           </span>
         );
       case "completed":
         return (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-50 border border-gray-200 px-3 py-1 text-xs font-semibold text-gray-700">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 px-3 py-1 text-xs font-semibold text-gray-700 dark:text-gray-300">
             <ShieldCheck className="h-3.5 w-3.5" /> Picked Up & Completed
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 border border-red-200 px-3 py-1 text-xs font-semibold text-red-700">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700/50 px-3 py-1 text-xs font-semibold text-red-700 dark:text-red-400">
             Cancelled
           </span>
         );
@@ -147,7 +147,7 @@ function MyOrdersPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-emerald-50/20">
+    <div className="min-h-screen flex flex-col bg-emerald-50/20 dark:bg-emerald-950/80">
       <SiteHeader />
       <main className="flex-1 mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 py-10">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
@@ -195,7 +195,7 @@ function MyOrdersPage() {
             {orders.map((order) => (
               <div
                 key={order.id}
-                className="rounded-3xl border border-emerald-100/50 bg-white/70 backdrop-blur p-6 shadow-xl shadow-emerald-950/5 flex flex-col md:flex-row justify-between gap-6 hover:shadow-2xl hover:border-emerald-100 transition duration-300"
+                className="rounded-3xl border border-emerald-100/50 dark:border-emerald-800/60 bg-white/70 dark:bg-emerald-900/30 backdrop-blur p-6 shadow-xl shadow-emerald-950/5 flex flex-col md:flex-row justify-between gap-6 hover:shadow-2xl hover:border-emerald-100 dark:hover:border-emerald-700/60 transition duration-300"
               >
                 {/* Left side: details */}
                 <div className="flex-1 space-y-4">
@@ -219,7 +219,7 @@ function MyOrdersPage() {
                         order.items.map((item, idx) => (
                           <span
                             key={idx}
-                            className="inline-flex items-center gap-1 rounded-xl bg-emerald-50 border border-emerald-100/50 px-3 py-1.5 text-xs font-semibold text-emerald-900"
+                            className="inline-flex items-center gap-1 rounded-xl bg-emerald-50 dark:bg-emerald-900/40 border border-emerald-100/50 dark:border-emerald-800/50 px-3 py-1.5 text-xs font-semibold text-emerald-900 dark:text-emerald-200"
                           >
                             <Pill className="h-3.5 w-3.5 text-emerald-600" />
                             {item.name}{" "}
@@ -250,14 +250,14 @@ function MyOrdersPage() {
 
                   {/* Admin Notes */}
                   {order.admin_notes && (
-                    <div className="text-xs text-amber-900/80 border-l-2 border-amber-300 bg-amber-50/50 rounded-r-lg p-2 pl-3">
+                    <div className="text-xs text-amber-900/80 dark:text-amber-300/80 border-l-2 border-amber-300 dark:border-amber-700 bg-amber-50/50 dark:bg-amber-900/30 rounded-r-lg p-2 pl-3">
                       <strong>Pharmacist Directions:</strong> {order.admin_notes}
                     </div>
                   )}
                 </div>
 
                 {/* Right side: Actions & Pricing */}
-                <div className="flex flex-col justify-between items-start md:items-end gap-4 min-w-[200px] border-t md:border-t-0 md:border-l border-emerald-50 pt-4 md:pt-0 md:pl-6">
+                <div className="flex flex-col justify-between items-start md:items-end gap-4 w-full md:w-auto md:min-w-[200px] border-t md:border-t-0 md:border-l border-emerald-50 dark:border-emerald-800/50 pt-4 md:pt-0 md:pl-6">
                   {/* Pricing block */}
                   <div className="space-y-1">
                     <p className="text-xs font-bold text-emerald-950/40 dark:text-emerald-100/40 md:text-right uppercase tracking-wider">
@@ -267,7 +267,7 @@ function MyOrdersPage() {
                       {order.total_price > 0 ? `₹${order.total_price.toFixed(2)}` : "TBD"}
                     </p>
                     <p
-                      className={`text-[10px] font-bold uppercase tracking-wider md:text-right ${order.payment_status === "paid" ? "text-emerald-600" : "text-amber-600"}`}
+                      className={`text-[10px] font-bold uppercase tracking-wider md:text-right ${order.payment_status === "paid" ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400"}`}
                     >
                       {order.payment_status === "paid" ? "Payment Completed" : "Payment Pending"}
                     </p>
@@ -287,11 +287,11 @@ function MyOrdersPage() {
                             </Link>
                           </Button>
                         ) : (
-                          <span className="inline-flex w-full justify-center items-center gap-1.5 rounded-xl bg-emerald-50 border border-emerald-200 py-2.5 text-xs font-bold text-emerald-800">
+                          <span className="inline-flex w-full justify-center items-center gap-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-900/40 border border-emerald-200 dark:border-emerald-700/50 py-2.5 text-xs font-bold text-emerald-800 dark:text-emerald-300">
                             <CheckCircle className="h-4 w-4" /> Payment Verified
                           </span>
                         )}
-                        <div className="rounded-2xl border border-emerald-100 dark:border-emerald-800/60 bg-emerald-50/40 p-3.5 space-y-2 text-emerald-950 dark:text-white w-full">
+                        <div className="rounded-2xl border border-emerald-100 dark:border-emerald-800/60 bg-emerald-50/40 dark:bg-emerald-900/30 p-3.5 space-y-2 text-emerald-950 dark:text-white w-full">
                           <p className="text-[11px] font-bold flex items-center gap-1.5">
                             <MapPin className="h-4 w-4 text-emerald-600 shrink-0" /> Ready at main
                             counter!

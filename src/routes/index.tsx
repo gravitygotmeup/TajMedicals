@@ -42,7 +42,7 @@ function Landing() {
     : "/auth";
 
   return (
-    <div className="min-h-screen flex flex-col bg-emerald-50/30">
+    <div className="min-h-screen flex flex-col bg-emerald-50/30 dark:bg-emerald-950/80">
       <SiteHeader />
 
       {/* Hero */}
@@ -90,7 +90,7 @@ function Landing() {
                 <Pill className="h-40 w-40 text-white/90" />
               </div>
             </div>
-            <div className="absolute -bottom-6 -left-6 rounded-2xl bg-white dark:bg-emerald-950 p-4 shadow-lg border border-emerald-100 dark:border-emerald-900/60">
+            <div className="absolute -bottom-4 left-2 sm:-left-6 rounded-2xl bg-white dark:bg-emerald-950 p-3 sm:p-4 shadow-lg border border-emerald-100 dark:border-emerald-900/60">
               <div className="flex items-center gap-3">
                 <div className="rounded-full bg-emerald-100 dark:bg-emerald-800 p-2">
                   <HeartPulse className="h-5 w-5 text-emerald-600" />

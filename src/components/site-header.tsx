@@ -20,8 +20,67 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-emerald-100 dark:border-emerald-900/50 bg-white/90 dark:bg-emerald-950/95 backdrop-blur-md transition-colors duration-200">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Left: auth actions */}
-        <div className="flex items-center gap-1.5 sm:gap-3.5 order-1 min-w-0">
+        {/* Left: brand logo */}
+        <Link
+          to="/"
+          className="flex items-center gap-1.5 sm:gap-2 shrink-0"
+        >
+          <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-lg shadow-emerald-600/30">
+            <Pill className="h-4 w-4 sm:h-5 sm:w-5" />
+          </div>
+          <span className="text-base sm:text-xl font-extrabold tracking-tight text-emerald-950 dark:text-white">
+            Taj Medicals
+          </span>
+        </Link>
+
+        {/* Center: desktop navigation */}
+        <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-emerald-900 dark:text-emerald-100">
+          {isSignedIn ? (
+            user?.role === "admin" ? (
+              <>
+                <Link
+                  to="/admin"
+                  className="text-emerald-700 dark:text-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-300 flex items-center gap-1"
+                >
+                  <ShieldCheck className="h-4 w-4" /> Admin Dashboard
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/request-medicine"
+                  className="text-emerald-700 dark:text-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-300 flex items-center gap-1"
+                >
+                  <Activity className="h-4 w-4" /> Request Medicine
+                </Link>
+                <Link
+                  to="/my-orders"
+                  className="text-emerald-700 dark:text-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-300 flex items-center gap-1"
+                >
+                  <ShoppingCart className="h-4 w-4" /> My Requests
+                </Link>
+              </>
+            )
+          ) : (
+            <>
+              <a href="#products" className="hover:text-emerald-600 dark:hover:text-emerald-400">
+                Products
+              </a>
+              <a href="#services" className="hover:text-emerald-600 dark:hover:text-emerald-400">
+                Services
+              </a>
+              <a href="#about" className="hover:text-emerald-600 dark:hover:text-emerald-400">
+                About
+              </a>
+              <a href="#contact" className="hover:text-emerald-600 dark:hover:text-emerald-400">
+                Contact
+              </a>
+            </>
+          )}
+        </nav>
+
+        {/* Right: auth actions + theme toggle + hamburger */}
+        <div className="flex items-center gap-1.5 sm:gap-3">
           {isSignedIn ? (
             <div className="flex items-center gap-1.5 sm:gap-3">
               <UserButton />
@@ -49,31 +108,15 @@ export function SiteHeader() {
               <Button
                 asChild
                 size="sm"
-                className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow-md shadow-emerald-600/10 px-2 sm:px-3"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow-md shadow-emerald-600/10 px-2 sm:px-3 hidden sm:inline-flex"
               >
                 <Link to="/auth" search={{ mode: "signup" }}>
-                  <span className="hidden xs:inline">Create </span>Account
+                  Create Account
                 </Link>
               </Button>
             </div>
           )}
-        </div>
 
-        {/* Center: brand logo */}
-        <Link
-          to="/"
-          className="order-2 absolute left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2"
-        >
-          <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-lg shadow-emerald-600/30">
-            <Pill className="h-4 w-4 sm:h-5 sm:w-5" />
-          </div>
-          <span className="text-lg sm:text-xl font-extrabold tracking-tight text-emerald-950 dark:text-white">
-            Taj Medicals
-          </span>
-        </Link>
-
-        {/* Right: theme toggle + desktop navigation + hamburger */}
-        <div className="order-3 flex items-center gap-1.5 sm:gap-3">
           {/* Theme Toggle Button */}
           <Button
             variant="ghost"
@@ -84,51 +127,6 @@ export function SiteHeader() {
           >
             {mounted && isDark ? <Sun className="h-4.5 w-4.5" /> : <Moon className="h-4.5 w-4.5" />}
           </Button>
-
-          <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-emerald-900 dark:text-emerald-100">
-            {isSignedIn ? (
-              user?.role === "admin" ? (
-                <>
-                  <Link
-                    to="/admin"
-                    className="text-emerald-700 dark:text-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-300 flex items-center gap-1"
-                  >
-                    <ShieldCheck className="h-4 w-4" /> Admin Dashboard
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <Link
-                    to="/request-medicine"
-                    className="text-emerald-700 dark:text-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-300 flex items-center gap-1"
-                  >
-                    <Activity className="h-4 w-4" /> Request Medicine
-                  </Link>
-                  <Link
-                    to="/my-orders"
-                    className="text-emerald-700 dark:text-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-300 flex items-center gap-1"
-                  >
-                    <ShoppingCart className="h-4 w-4" /> My Requests
-                  </Link>
-                </>
-              )
-            ) : (
-              <>
-                <a href="#products" className="hover:text-emerald-600 dark:hover:text-emerald-400">
-                  Products
-                </a>
-                <a href="#services" className="hover:text-emerald-600 dark:hover:text-emerald-400">
-                  Services
-                </a>
-                <a href="#about" className="hover:text-emerald-600 dark:hover:text-emerald-400">
-                  About
-                </a>
-                <a href="#contact" className="hover:text-emerald-600 dark:hover:text-emerald-400">
-                  Contact
-                </a>
-              </>
-            )}
-          </nav>
 
           {/* Mobile hamburger */}
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
