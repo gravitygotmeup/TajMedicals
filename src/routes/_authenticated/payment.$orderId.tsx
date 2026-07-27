@@ -13,6 +13,10 @@ import {
   Calendar,
   MapPin,
   Phone,
+  Lock,
+  Copy,
+  Check,
+  QrCode,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/payment/$orderId")({
@@ -41,6 +45,7 @@ function PaymentPage() {
 
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -61,6 +66,13 @@ function PaymentPage() {
       }
     })();
   }, [orderId]);
+
+  const handleCopyUpi = () => {
+    navigator.clipboard.writeText("hellotajmedicals@okaxis");
+    setCopied(true);
+    toast.success("UPI ID copied to clipboard!");
+    setTimeout(() => setCopied(false), 2500);
+  };
 
   if (loading) {
     return (
@@ -98,14 +110,16 @@ function PaymentPage() {
     );
   }
 
-  const total = order.total_price; // Total set by pharmacist, no extra fees
+  const total = order.total_price;
+  const upiLink = `upi://pay?pa=hellotajmedicals@okaxis&pn=Taj%20Medicals&am=${total.toFixed(2)}&cu=INR`;
+  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiLink)}`;
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-emerald-50/30 via-white to-emerald-50/10 dark:from-emerald-950 dark:via-emerald-950 dark:to-emerald-900/30">
       <SiteHeader />
 
-      <main className="flex-1 mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 py-10">
-        <div className="flex items-center gap-2 mb-6">
+      <main className="flex-1 mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+        <div className="flex items-center gap-2 mb-4 sm:mb-6">
           <Button
             asChild
             variant="ghost"
@@ -118,19 +132,19 @@ function PaymentPage() {
           </Button>
         </div>
 
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight text-emerald-950 dark:text-white">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-emerald-950 dark:text-white">
             Payment Checkout
           </h1>
-          <p className="mt-1 text-emerald-900/70 dark:text-emerald-200/80">
-            Complete your online payment to authorize medication pickup.
+          <p className="mt-1 text-xs sm:text-sm text-emerald-900/70 dark:text-emerald-200/80">
+            Scan the QR code or copy the UPI ID below to pay online.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-12 gap-8 items-start">
+        <div className="grid md:grid-cols-12 gap-6 sm:gap-8 items-start">
           {/* Invoice Summary column (5 cols) */}
-          <div className="md:col-span-5 rounded-3xl border border-emerald-100 dark:border-emerald-800/60 bg-white p-6 shadow-xl shadow-emerald-950/5 space-y-6">
-            <h2 className="text-lg font-bold text-emerald-950 dark:text-white border-b border-emerald-50 pb-3">
+          <div className="md:col-span-5 rounded-3xl border border-emerald-100 dark:border-emerald-800/60 bg-white dark:bg-emerald-900/30 p-5 sm:p-6 shadow-xl shadow-emerald-950/5 space-y-6">
+            <h2 className="text-lg font-bold text-emerald-950 dark:text-white border-b border-emerald-50 dark:border-emerald-800/60 pb-3">
               Invoice Details
             </h2>
 
@@ -139,12 +153,12 @@ function PaymentPage() {
                 order.items.map((item, index) => (
                   <div
                     key={index}
-                    className="flex justify-between items-center text-sm border-b border-emerald-50/50 pb-2.5 last:border-b-0 last:pb-0"
+                    className="flex justify-between items-center text-sm border-b border-emerald-50/50 dark:border-emerald-800/40 pb-2.5 last:border-b-0 last:pb-0"
                   >
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 min-w-0 pr-2">
                       <Pill className="h-4 w-4 text-emerald-600 shrink-0" />
-                      <div>
-                        <p className="font-semibold text-emerald-950 dark:text-white">
+                      <div className="min-w-0">
+                        <p className="font-semibold text-emerald-950 dark:text-white text-xs sm:text-sm break-words">
                           {item.name}
                         </p>
                         <p className="text-[10px] text-emerald-950/40 dark:text-emerald-100/40">
@@ -152,7 +166,7 @@ function PaymentPage() {
                         </p>
                       </div>
                     </div>
-                    <span className="font-bold text-emerald-950 dark:text-white">
+                    <span className="font-bold text-emerald-950 dark:text-white shrink-0 text-xs sm:text-sm">
                       {item.price ? `₹${(item.price * item.quantity).toFixed(2)}` : "TBD"}
                     </span>
                   </div>
@@ -160,10 +174,10 @@ function PaymentPage() {
             </div>
 
             {/* Calculations */}
-            <div className="border-t border-emerald-50 pt-4 space-y-2 text-sm">
+            <div className="border-t border-emerald-50 dark:border-emerald-800/60 pt-4 space-y-2 text-sm">
               <div className="flex justify-between text-base font-extrabold text-emerald-950 dark:text-white pt-1">
                 <span>Total Amount Due</span>
-                <span className="text-emerald-700">₹{total.toFixed(2)}</span>
+                <span className="text-emerald-700 dark:text-emerald-400">₹{total.toFixed(2)}</span>
               </div>
               <p className="text-[10px] text-emerald-900/50 dark:text-emerald-200/60 leading-relaxed">
                 Price inclusive of all applicable charges as set by the pharmacist.
@@ -171,11 +185,11 @@ function PaymentPage() {
             </div>
 
             {/* Security assurance */}
-            <div className="flex gap-2 bg-emerald-50/30 dark:bg-emerald-900/30 border border-emerald-100/50 dark:border-emerald-800/60 rounded-2xl p-3.5 text-xs text-emerald-950 dark:text-white">
+            <div className="flex gap-2.5 bg-emerald-50/30 dark:bg-emerald-900/40 border border-emerald-100/50 dark:border-emerald-800/60 rounded-2xl p-3.5 text-xs text-emerald-950 dark:text-white">
               <ShieldCheck className="h-5 w-5 text-emerald-600 shrink-0" />
               <div>
                 <p className="font-bold">Sterile Sealed Guarantee</p>
-                <p className="text-emerald-950/60 dark:text-emerald-300/60 leading-relaxed mt-0.5">
+                <p className="text-emerald-950/60 dark:text-emerald-300/60 leading-relaxed mt-0.5 text-[11px]">
                   Your prescription is packed in a certified tamper-proof bag under medical grade
                   supervision.
                 </p>
@@ -184,49 +198,67 @@ function PaymentPage() {
           </div>
 
           {/* UPI and Pickup info column (7 cols) */}
-          <div className="md:col-span-7 rounded-3xl border border-emerald-100 dark:border-emerald-800/60 bg-white p-6 sm:p-8 shadow-xl shadow-emerald-950/5 space-y-6">
-            <div className="flex justify-between items-center border-b border-emerald-50 pb-3">
+          <div className="md:col-span-7 rounded-3xl border border-emerald-100 dark:border-emerald-800/60 bg-white dark:bg-emerald-900/30 p-5 sm:p-8 shadow-xl shadow-emerald-950/5 space-y-6">
+            <div className="flex justify-between items-center border-b border-emerald-50 dark:border-emerald-800/60 pb-3">
               <h2 className="text-lg font-bold text-emerald-950 dark:text-white">
                 Choose Payment Method
               </h2>
-              <div className="flex gap-1.5 text-emerald-900/30 dark:text-emerald-200/40">
-                <Lock className="h-4 w-4 text-emerald-600" />
-                <span className="text-[10px] font-bold tracking-wider uppercase">UPI Secure</span>
+              <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/60 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-700/60">
+                <Lock className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                <span className="text-[10px] font-extrabold tracking-wider uppercase">UPI Secure</span>
               </div>
             </div>
 
             <div className="space-y-6">
               {/* Option 1: UPI QR code */}
-              <div className="border border-emerald-100 dark:border-emerald-800/60 rounded-2xl p-5 bg-emerald-50/10 flex flex-col items-center text-center">
-                <span className="inline-flex rounded-full bg-emerald-100 px-3 py-1 text-[10px] font-bold text-emerald-800 uppercase tracking-wider mb-3">
-                  Option 1: Scan UPI QR Code
+              <div className="border border-emerald-100 dark:border-emerald-800/60 rounded-2xl p-4 sm:p-6 bg-emerald-50/20 dark:bg-emerald-900/20 flex flex-col items-center text-center">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 dark:bg-emerald-800/60 px-3 py-1 text-[10px] font-extrabold text-emerald-800 dark:text-emerald-200 uppercase tracking-wider mb-3">
+                  <QrCode className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-300" /> Option 1: Scan UPI QR Code
                 </span>
-                <p className="text-xs text-emerald-950/70 dark:text-emerald-100/70 mb-4 max-w-sm">
-                  Scan this QR code using any UPI app (Google Pay, PhonePe, Paytm, BHIM) to pay the
-                  exact amount.
+                <p className="text-xs text-emerald-950/70 dark:text-emerald-100/70 mb-4 max-w-sm leading-relaxed">
+                  Scan using Google Pay, PhonePe, Paytm, or any UPI app to pay <strong className="text-emerald-700 dark:text-emerald-400 font-extrabold">₹{total.toFixed(2)}</strong>.
                 </p>
-                <div className="p-3 bg-white dark:bg-emerald-900/40 rounded-2xl border border-emerald-100 dark:border-emerald-800/60 dark:border-emerald-800/50 shadow-md mb-2">
+                <div className="p-4 bg-white rounded-2xl border-2 border-emerald-100 dark:border-emerald-800 shadow-lg mb-4 flex flex-col items-center">
                   <img
-                    src="/qr-code.png"
+                    src={qrCodeUrl}
                     alt="UPI Payment QR Code — Taj Medicals"
-                    className="h-[200px] w-[200px] object-contain rounded-lg"
-                    onError={(e: any) => {
-                      e.target.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent("upi://pay?pa=hellotajmedicals@okaxis&pn=Taj%20Medicals&cu=INR")}`;
-                    }}
+                    className="h-[180px] w-[180px] sm:h-[220px] sm:w-[220px] object-contain rounded-lg"
                   />
-                </div>
-                <p className="text-xs text-emerald-900/60 dark:text-emerald-200/70 dark:text-emerald-300/60 mb-3">
-                  UPI ID:{" "}
-                  <span className="font-mono font-bold text-emerald-800 dark:text-emerald-300 select-all">
-                    hellotajmedicals@okaxis
+                  <span className="text-[10px] text-emerald-900/50 font-mono font-bold mt-2">
+                    Taj Medicals Official UPI QR
                   </span>
-                </p>
-                <p className="text-sm font-black text-emerald-950 dark:text-white mb-2">
-                  Amount Due:{" "}
-                  <span className="text-emerald-700 font-mono">₹{total.toFixed(2)}</span>
-                </p>
-                <p className="text-[11px] text-emerald-900/60 dark:text-emerald-200/70">
-                  Show payment screenshot at the counter during pickup.
+                </div>
+
+                {/* 1-Tap Copy UPI ID for Mobile users browsing on phone */}
+                <div className="w-full max-w-xs flex flex-col items-center gap-2 mb-3 bg-white dark:bg-emerald-950 p-3 rounded-2xl border border-emerald-100 dark:border-emerald-800/60 shadow-sm">
+                  <span className="text-[10px] uppercase tracking-wider font-bold text-emerald-950/50 dark:text-emerald-100/50">
+                    UPI ID:
+                  </span>
+                  <div className="flex items-center justify-between gap-2 w-full bg-emerald-50/50 dark:bg-emerald-900/40 px-3 py-1.5 rounded-xl border border-emerald-100 dark:border-emerald-800/60">
+                    <span className="font-mono text-xs font-bold text-emerald-900 dark:text-emerald-200 select-all truncate">
+                      hellotajmedicals@okaxis
+                    </span>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={handleCopyUpi}
+                      className="h-7 px-2 text-xs font-bold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-800/60 shrink-0"
+                    >
+                      {copied ? (
+                        <span className="flex items-center gap-1 text-emerald-600">
+                          <Check className="h-3.5 w-3.5" /> Copied
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-1">
+                          <Copy className="h-3.5 w-3.5" /> Copy
+                        </span>
+                      )}
+                    </Button>
+                  </div>
+                </div>
+
+                <p className="text-[11px] text-emerald-900/60 dark:text-emerald-200/70 leading-relaxed">
+                  Show payment completion screen or screenshot at counter during pickup.
                 </p>
               </div>
 

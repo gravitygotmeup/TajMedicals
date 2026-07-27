@@ -663,124 +663,143 @@ function AdminPage() {
                       </p>
                     </div>
                     {/* Add new items dynamically if prescription is uploaded */}
-                    <div className="border border-emerald-100 dark:border-emerald-800/60 rounded-2xl p-4 bg-emerald-50/20 dark:bg-emerald-900/20 space-y-3">
-                      <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-950/60 dark:text-emerald-100/60">
-                        Add Packaged Item
+                    <div className="border border-emerald-100 dark:border-emerald-800/60 rounded-2xl p-3.5 sm:p-4 bg-emerald-50/20 dark:bg-emerald-900/20 space-y-3">
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-950/60 dark:text-emerald-100/60 flex items-center justify-between">
+                        <span>Add Packaged Item</span>
+                        <span className="text-[10px] text-emerald-600 font-semibold">Custom item</span>
                       </h4>
-                      <div className="flex gap-2">
+                      <div className="flex flex-col sm:flex-row gap-2">
                         <Input
                           placeholder="Medicine Name (e.g. Paracetamol)"
-                          className="h-9 border-emerald-100 rounded-lg text-xs flex-1 bg-white"
+                          className="h-9 border-emerald-100 dark:border-emerald-800/60 rounded-lg text-xs flex-1 bg-white dark:bg-emerald-900/50"
                           id="new-item-name"
                         />
-                        <Input
-                          type="number"
-                          min={1}
-                          defaultValue={1}
-                          className="h-9 border-emerald-100 rounded-lg text-xs w-16 text-center bg-white"
-                          id="new-item-qty"
-                        />
-                        <Button
-                          onClick={() => {
-                            const nameInput = document.getElementById(
-                              "new-item-name",
-                            ) as HTMLInputElement;
-                            const qtyInput = document.getElementById(
-                              "new-item-qty",
-                            ) as HTMLInputElement;
-                            if (nameInput && nameInput.value.trim()) {
-                              const newItem = {
-                                name: nameInput.value.trim(),
-                                quantity: parseInt(qtyInput.value) || 1,
-                                price: 0,
-                                isCustom: true,
-                              };
-                              setProcessingItems([...processingItems, newItem]);
-                              nameInput.value = "";
-                              qtyInput.value = "1";
-                            } else {
-                              toast.error("Please enter a medicine name");
-                            }
-                          }}
-                          className="h-9 px-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shrink-0"
-                        >
-                          Add
-                        </Button>
+                        <div className="flex gap-2 shrink-0">
+                          <Input
+                            type="number"
+                            min={1}
+                            defaultValue={1}
+                            className="h-9 border-emerald-100 dark:border-emerald-800/60 rounded-lg text-xs w-16 text-center bg-white dark:bg-emerald-900/50"
+                            id="new-item-qty"
+                          />
+                          <Button
+                            onClick={() => {
+                              const nameInput = document.getElementById(
+                                "new-item-name",
+                              ) as HTMLInputElement;
+                              const qtyInput = document.getElementById(
+                                "new-item-qty",
+                              ) as HTMLInputElement;
+                              if (nameInput && nameInput.value.trim()) {
+                                const newItem = {
+                                  name: nameInput.value.trim(),
+                                  quantity: parseInt(qtyInput.value) || 1,
+                                  price: 0,
+                                  isCustom: true,
+                                };
+                                setProcessingItems([...processingItems, newItem]);
+                                nameInput.value = "";
+                                qtyInput.value = "1";
+                              } else {
+                                toast.error("Please enter a medicine name");
+                              }
+                            }}
+                            className="h-9 px-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shrink-0 flex-1 sm:flex-initial"
+                          >
+                            <Plus className="h-3.5 w-3.5 mr-1" /> Add
+                          </Button>
+                        </div>
                       </div>
                     </div>
 
                     {/* Items Price Assignments */}
-                    <div className="space-y-4">
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-950/40 dark:text-emerald-100/40">
-                        Assign Packaging Prices
+                    <div className="space-y-3">
+                      <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-950/50 dark:text-emerald-100/50 flex justify-between items-center">
+                        <span>Assign Packaging Prices</span>
+                        <span className="text-[10px] text-emerald-900/40 dark:text-emerald-200/40 font-normal">({processingItems.length} items)</span>
                       </h3>
-                      <div className="space-y-3">
-                        {processingItems.map((item, idx) => (
-                          <div
-                            key={idx}
-                            className="flex gap-3 justify-between items-center py-2.5 border-b border-emerald-50 dark:border-emerald-800/60"
-                          >
-                            <div className="flex-1 min-w-0">
-                              <p className="text-sm font-bold text-emerald-950 dark:text-white truncate flex items-center gap-1.5">
-                                {item.name}
-                                {item.isCustom && (
-                                  <span className="bg-amber-100 border border-amber-200 px-1 py-0.5 rounded text-[8px] font-bold text-amber-700">
-                                    Custom
-                                  </span>
-                                )}
-                              </p>
-                            </div>
 
-                            <div className="flex gap-2 shrink-0 items-center">
-                              {/* Quantity field */}
-                              <div className="w-14">
-                                <Input
-                                  type="number"
-                                  min={1}
-                                  className="h-9 text-center p-1 border-emerald-100 rounded-lg text-xs"
-                                  value={item.quantity}
-                                  onChange={(e) =>
-                                    handleProcessingItemQtyChange(
-                                      idx,
-                                      parseInt(e.target.value) || 1,
-                                    )
-                                  }
-                                />
+                      <div className="max-h-[280px] overflow-y-auto pr-1 space-y-2.5">
+                        {processingItems.length === 0 ? (
+                          <p className="text-xs text-emerald-900/40 dark:text-emerald-200/40 italic text-center py-4">
+                            No items in package. Add an item above.
+                          </p>
+                        ) : (
+                          processingItems.map((item, idx) => (
+                            <div
+                              key={idx}
+                              className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 p-3 rounded-2xl bg-emerald-50/40 dark:bg-emerald-900/30 border border-emerald-100/60 dark:border-emerald-800/60"
+                            >
+                              <div className="flex-1 min-w-0 pr-1">
+                                <p className="text-xs sm:text-sm font-bold text-emerald-950 dark:text-white break-words flex items-center gap-1.5">
+                                  <Pill className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
+                                  <span className="break-all sm:break-normal">{item.name}</span>
+                                  {item.isCustom && (
+                                    <span className="bg-amber-100 dark:bg-amber-900/60 border border-amber-200 dark:border-amber-700 px-1 py-0.5 rounded text-[8px] font-bold text-amber-700 dark:text-amber-300 shrink-0">
+                                      Custom
+                                    </span>
+                                  )}
+                                </p>
                               </div>
-                              {/* Price field */}
-                              <div className="relative w-20">
-                                <span className="absolute left-2 top-2.5 text-xs text-emerald-950/40 dark:text-emerald-100/40">
-                                  ₹
-                                </span>
-                                <Input
-                                  type="number"
-                                  placeholder="Price"
-                                  step="0.01"
-                                  min="0"
-                                  className="h-9 pl-4 pr-1 border-emerald-100 rounded-lg text-xs"
-                                  value={item.price === undefined ? "" : item.price}
-                                  onChange={(e) =>
-                                    handleProcessingItemPriceChange(
-                                      idx,
-                                      e.target.value === "" ? 0 : parseFloat(e.target.value) || 0,
-                                    )
-                                  }
-                                />
+
+                              <div className="flex items-center gap-2 self-between sm:self-auto shrink-0 justify-between sm:justify-end">
+                                {/* Quantity field */}
+                                <div className="flex items-center gap-1">
+                                  <span className="text-[10px] font-semibold text-emerald-950/50 dark:text-emerald-200/50">Qty:</span>
+                                  <Input
+                                    type="number"
+                                    min={1}
+                                    className="h-8 w-14 text-center p-1 border-emerald-100 dark:border-emerald-800/60 rounded-lg text-xs bg-white dark:bg-emerald-950"
+                                    value={item.quantity}
+                                    onChange={(e) =>
+                                      handleProcessingItemQtyChange(
+                                        idx,
+                                        parseInt(e.target.value) || 1,
+                                      )
+                                    }
+                                  />
+                                </div>
+
+                                {/* Price field */}
+                                <div className="flex items-center gap-1">
+                                  <span className="text-[10px] font-semibold text-emerald-950/50 dark:text-emerald-200/50">Price:</span>
+                                  <div className="relative w-20">
+                                    <span className="absolute left-2 top-2 text-xs text-emerald-950/40 dark:text-emerald-100/40 font-bold">
+                                      ₹
+                                    </span>
+                                    <Input
+                                      type="number"
+                                      placeholder="0.00"
+                                      step="0.01"
+                                      min="0"
+                                      className="h-8 pl-4 pr-1 border-emerald-100 dark:border-emerald-800/60 rounded-lg text-xs bg-white dark:bg-emerald-950 font-bold"
+                                      value={item.price === undefined ? "" : item.price}
+                                      onChange={(e) =>
+                                        handleProcessingItemPriceChange(
+                                          idx,
+                                          e.target.value === "" ? 0 : parseFloat(e.target.value) || 0,
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                </div>
+
+                                {/* Delete item button */}
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => {
+                                    setProcessingItems(processingItems.filter((_, i) => i !== idx));
+                                  }}
+                                  className="h-8 w-8 text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg shrink-0"
+                                  title="Remove item"
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
                               </div>
-                              {/* Delete item button */}
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => {
-                                  setProcessingItems(processingItems.filter((_, i) => i !== idx));
-                                }}
-                                className="h-8 w-8 text-emerald-900/50 dark:text-emerald-200/60 hover:text-red-500 rounded-lg"
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </Button>
                             </div>
-                          </div>
-                        ))}
+                          ))
+                        )}
                       </div>
                     </div>
 
